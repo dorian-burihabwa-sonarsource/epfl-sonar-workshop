@@ -4,15 +4,15 @@
   <parent>
     <groupId>org.sonarsource.java</groupId>
     <artifactId>docs</artifactId>
-    <version>7.24.0.32100</version>
+    <version>7.16.0.30901</version>
   </parent>
 
 
-  <artifactId>java-custom-rules-example</artifactId>
+  <groupId>org.sonar.samples.java</groupId>
+  <artifactId>epfl-sonar-workshop</artifactId>
   <packaging>sonar-plugin</packaging>
-
-  <name>SonarQube Java :: Documentation :: Custom Rules Example</name>
-  <description>Java Custom Rules Example for SonarQube</description>
+  <name>EPFL Sonar Workshop</name>
+  <description>A custom rule plugin for SonarQube</description>
 
   <properties>
     <jacoco.version>0.8.10</jacoco.version>
@@ -84,7 +84,7 @@
           <pluginClass>org.sonar.samples.java.MyJavaRulesPlugin</pluginClass>
           <sonarLintSupported>true</sonarLintSupported>
           <skipDependenciesPackaging>true</skipDependenciesPackaging>
-          <sonarQubeMinVersion>8.9</sonarQubeMinVersion>
+          <sonarQubeMinVersion>9.9</sonarQubeMinVersion>
           <requirePlugins>java:${project.version}</requirePlugins>
         </configuration>
       </plugin>

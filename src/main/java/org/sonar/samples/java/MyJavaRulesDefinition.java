@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2023 SonarSource SA - mailto:info AT sonarsource DOT com
+ * Copyright (C) 2012-2022 SonarSource SA - mailto:info AT sonarsource DOT com
  * This code is released under [MIT No Attribution](https://opensource.org/licenses/MIT-0) license.
  */
 package org.sonar.samples.java;
@@ -17,12 +17,11 @@ import org.sonarsource.analyzer.commons.RuleMetadataLoader;
  * That allows to list the rules in the page "Rules".
  */
 public class MyJavaRulesDefinition implements RulesDefinition {
-
   // don't change that because the path is hard coded in CheckVerifier
   private static final String RESOURCE_BASE_PATH = "org/sonar/l10n/java/rules/java";
 
-  public static final String REPOSITORY_KEY = "mycompany-java";
-  public static final String REPOSITORY_NAME = "MyCompany Custom Repository";
+  public static final String REPOSITORY_KEY = "epfl-workshop-java";
+  public static final String REPOSITORY_NAME = "Rules for the EPFL workshop";
 
   // Add the rule keys of the rules which need to be considered as template-rules
   private static final Set<String> RULE_TEMPLATES_KEY = Collections.emptySet();
