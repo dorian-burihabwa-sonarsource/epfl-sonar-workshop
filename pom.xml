@@ -8,11 +8,11 @@
   </parent>
 
 
-  <artifactId>java-custom-rules-example</artifactId>
+  <artifactId>epfl-sonar-workshop</artifactId>
   <packaging>sonar-plugin</packaging>
 
-  <name>SonarQube Java :: Documentation :: Custom Rules Example</name>
-  <description>Java Custom Rules Example for SonarQube</description>
+  <name>EPFL Sonar Workshop</name>
+  <description>A custom rule plugin for SonarQube</description>
 
   <properties>
     <jacoco.version>0.8.10</jacoco.version>
