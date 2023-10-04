@@ -26,7 +26,7 @@ bin\windows-x86-64\StartSonar.bat
 To build the plugin and run the tests, just run:
 
 ```shell
-mvn clean verify
+../mvnw clean verify
 ```
 
 If the build goes through properly, the `target` folder at the top of the project should now contain multiple JAR files.
