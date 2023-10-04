@@ -30,11 +30,11 @@ To build the plugin and run the tests, just run:
 ```
 
 If the build goes through properly, the `target` folder at the top of the project should now contain multiple JAR files.
-One of them should be named [epfl-sonar-workshop-7.24.0.32100.jar](target%2Fepfl-sonar-workshop-7.24.0.32100.jar).
+One of them should be named [epfl-sonar-workshop-7.16.0.30901.jar](target%2Fepfl-sonar-workshop-7.16.0.30901.jar).
 
 ## Loading your plugin into a SonarQube instance
 
-To load your plugin, copy your [epfl-sonar-workshop-7.24.0.32100.jar](target%2Fepfl-sonar-workshop-7.24.0.32100.jar) to `lib/extensions/`folder in your SonarQube instance.
+To load your plugin, copy your [epfl-sonar-workshop-7.16.0.30901.jar](target%2Fepfl-sonar-workshop-7.16.0.30901.jar) to `lib/extensions/`folder in your SonarQube instance.
 Restart the SQ instance.
 
 You can check that your plugin is now loaded by querying localhost:900/api/plugins/installed.

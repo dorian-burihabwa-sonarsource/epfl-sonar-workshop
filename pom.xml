@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.sonarsource.java</groupId>
     <artifactId>docs</artifactId>
-    <version>7.24.0.32100</version>
+    <version>7.16.0.30901</version>
   </parent>
 
 
