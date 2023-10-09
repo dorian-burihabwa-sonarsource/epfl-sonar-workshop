@@ -5,13 +5,13 @@ It is derived from the [base template of the sonar-java project](https://github.
 
 For more details about how to write custom rules, please refer to the official tutorial, [Writing Custom Java Rules 101](https://github.com/SonarSource/sonar-java/blob/1947bdb5bec965afcee43087febf32245cb06253/docs/CUSTOM_RULES_101.md).
 
-## Running SonarQube locally
+## A brief introduction to SonarQube
 
 ### Downloading SonarQube 9.9
 Start by getting a copy of SonarQube 9.9 Community edition from the [SonarQube website](https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.2.77).
 Following the instructions from the [official documentation](https://docs.sonarsource.com/sonarqube/9.9),
 
-### Getting started with SonarQube
+### Starting SonarQube
 Unzip the archive, get into the unzipped folder and open a terminal.
 To start SonarQube, run:
 
@@ -26,9 +26,67 @@ bin\windows-x86-64\StartSonar.bat
 
 After a few seconds, you should be able to connect to your instance on http://localhost:9000.
 
-TODO: Insert image here
-
 Login with the default credentials (user: admin, password: admin) and update with a new password of your choice.
+
+### Exploring SonarQube
+
+With your new running instance, let's get familiar with some of the concepts present of the Sonar ecosystem.
+
+#### Rules
+
+You should be able to list all the rules available to you by browsing on the [rules page](http://localhost:9000/coding_rules).
+You can play around with the filters.
+
+Note how every rule has:
+- A unique key
+- A description
+- A type
+- A severity
+- A repository of origin
+
+Additionally, a rule may have:
+- Multiple language implementations
+- Tags
+- Customizable parameters
+
+---
+Before moving on, ask yourself:
+- How many rules are there for Java?
+- How many rules are there that apply both for Java and Kotlin?
+- Can I find a rule with a customizable parameter?
+---
+
+#### Quality profiles
+
+In order to apply a set of rules to your project, they can be grouped as __quality profiles__.
+Sonar provides default a quality profile named "Sonar way".
+It serves as the default quality profile.
+
+Such a profile can then be:
+- copied (an identical separate copy that can be modified)
+- extended (depends on the original one that can be modified but can bring its own modifications)
+
+The new profiles can then be set as defaults for our SonarQube instance or just used for some of our existing projects.
+
+---
+Before moving on, ask yourself:
+- How many rules are there in the "Sonar Way" quality profile for Java?
+- Is there a difference with the number of available rules?
+---
+
+
+#### Quality gates
+
+To get a quick look at your project's health and ensure a reasonable state, [Quality Gates](http://localhost:9000/quality_gates/) can prove usefué.
+It is a combination of a quality profile and a set of conditions that should be matched.
+The quality gate can either been green or red.
+You can leverage this quality gate toggle in your CI pipeline to get familiar to block releases or trigger alerts for your development team.
+
+---
+Before moving on, ask yourself:
+- What is the name of the default quality gate?
+- Is this quality gate applied to all code?
+---
 
 ## Adding a new project to SonarQube
 We are going to analyze our own repository by adding it manually.
