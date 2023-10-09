@@ -88,7 +88,33 @@ Before moving on, ask yourself:
 - Is this quality gate applied to all code?
 ---
 
-## Adding a new project to SonarQube
+## Analyzing your first project with SonarQube
+
+We are going to analyze our first project with SonarQube.
+First, clone or get a copy of the [spring-petclinic project](https://github.com/spring-projects/spring-petclinic).
+Then follow the instructions to get the project analyzed.
+
+- On the ["How do you want to create your project?"](http://localhost:9000/projects/create) Select ["Manually"](http://localhost:9000/projects/create?mode=manual).
+- Enter "spring-petclinic" as the project name and project key, and click "Set Up"
+- Select ["Locally"](http://localhost:9000/dashboard?id=epfl-sonar-workshop&selectedTutorial=local),
+- On the "Provide a token" step, create the 30-days token and **make a copy of it**.
+- On the "Run analysis on your project" step, select Gradle and **make a copy of the command suggested by SonarQube**
+- Open a terminal at the root of the project and run the command suggested by SonarQube
+
+If the command succeeds, your browser tab should update soon with the results of the analysis.
+
+Take some time to look around and explore the results of the analysis.
+
+---
+Before moving on, ask yourself:
+- How many issues are detected?
+- What is the status of the quality gate?
+- What is the version of the project you analyzed?
+- How many lines of code are there in the project?
+---
+
+
+## Adding your own project to SonarQube
 We are going to analyze our own repository by adding it manually.
 
 - On the ["How do you want to create your project?"](http://localhost:9000/projects/create) Select ["Manually"](http://localhost:9000/projects/create?mode=manual).
@@ -96,6 +122,7 @@ We are going to analyze our own repository by adding it manually.
 - Select ["Locally"](http://localhost:9000/dashboard?id=epfl-sonar-workshop&selectedTutorial=local),
 - On the "Provide a token" step, create the 30-days token and **make a copy of it**.
 - On the "Run analysis on your project" step, select Maven and **make a copy of the command suggested by SonarQube**
+- ** Before running the command, replace "mvn" with "./mvnw"
 - Open a terminal at the root of the project and run the command suggested by SonarQube
 
 If the command succeeds, your browser tab should update soon with the results of the analysis.
