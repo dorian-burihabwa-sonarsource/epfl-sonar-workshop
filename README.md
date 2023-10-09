@@ -98,7 +98,8 @@ Then follow the instructions to get the project analyzed.
 - Enter "spring-petclinic" as the project name and project key, and click "Set Up"
 - Select ["Locally"](http://localhost:9000/dashboard?id=epfl-sonar-workshop&selectedTutorial=local),
 - On the "Provide a token" step, create the 30-days token and **make a copy of it**.
-- On the "Run analysis on your project" step, select Gradle and **make a copy of the command suggested by SonarQube**
+- On the "Run analysis on your project" step, select Maven and **make a copy of the command suggested by SonarQube**
+- **Before running the command, replace "mvn" with "./mvnw" on Linux/Mac**
 - Open a terminal at the root of the project and run the command suggested by SonarQube
 
 If the command succeeds, your browser tab should update soon with the results of the analysis.
@@ -122,7 +123,7 @@ We are going to analyze our own repository by adding it manually.
 - Select ["Locally"](http://localhost:9000/dashboard?id=epfl-sonar-workshop&selectedTutorial=local),
 - On the "Provide a token" step, create the 30-days token and **make a copy of it**.
 - On the "Run analysis on your project" step, select Maven and **make a copy of the command suggested by SonarQube**
-- ** Before running the command, replace "mvn" with "./mvnw"
+- **Before running the command, replace "mvn" with "./mvnw" on Linux/Mac**
 - Open a terminal at the root of the project and run the command suggested by SonarQube
 
 If the command succeeds, your browser tab should update soon with the results of the analysis.
