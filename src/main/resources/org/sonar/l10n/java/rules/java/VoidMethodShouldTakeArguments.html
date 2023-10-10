@@ -1,0 +1,17 @@
+<p>Methods with return type "void" should take at least one argument.</p>
+<h2>Noncompliant Code Example</h2>
+<pre>
+    void doSomething() {
+        // something is done
+    }
+</pre>
+<h2>Compliant Solution</h2>
+<pre>
+    void doSomething(int value) {
+        // something is done
+    }
+    
+    boolean doSomethingElse() {
+        // something is done
+    }
+</pre>
