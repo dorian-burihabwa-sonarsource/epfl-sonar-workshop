@@ -686,7 +686,13 @@ Your rule should now be visible (with all the other sample rules).
 
 ![Selected rules](resources/rules_selected.png)
 
-Once activated (not sure how? see [quality-profiles](https://docs.sonarqube.org/latest/instance-administration/quality-profiles/)), the only step remaining is to analyze one of your projects!
+Enable the rule by going back to [quality profiles](http://localhost:9000/profiles) and extending the Java "Sonar way" profile (name with something you will recognize).
+Set the new quality profile as default by clicking on the Gear icon at the top right and then clicking "Set as default".
+Select the "Activate More" option and find your rule using the search bar.
+Select your rule and click "Activate".
+
+
+Once activated (not sure how? see [quality-profiles](https://docs.sonarsource.com/sonarqube/9.9/instance-administration/quality-profiles/)), the only step remaining is to analyze one of your projects!
 
 When encountering a method returning the same type as its parameter, the custom rule will now raise an issue, as visible in the following picture:
 
