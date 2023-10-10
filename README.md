@@ -656,29 +656,20 @@ public class MyJavaRulesDefinition implements RulesDefinition {
 
 ## Testing a custom plugin
 
->
-> :exclamation: **Prerequisite**
->
-> For this chapter, you will need a local instance of SonarQube. 
-> If you don't have a SonarQube platform installed on your machine, now is the time to download its latest version from [HERE](https://www.sonarqube.org/downloads/)!
->
-
-At this point, we've completed the implementation of the first custom rule and registered it into the custom plugin. 
+At this point, we've completed the implementation of the first custom rule and registered it into the custom plugin.
 The last remaining step is to test it directly with the SonarQube platform and try to analyze a project!
 
-Start by building the project using Maven. Note that here we are using the self-contained `pom` file targeting SonarQube `9.9` LTS. 
-If you renamed it into `pom.xml`, remove the `-f pom_SQ_9_9_LTS.xml` part of the following command):
+Start by building the project using Maven.
 
 ```
-$ pwd
-/home/gandalf/workspace/sonar-java/docs/java-custom-rules-example
-  
-$ mvn clean install -f pom_SQ_9_9_LTS.xml
+$ mvn clean verify
 [INFO] Scanning for projects...
 [INFO]                                                                        
-[INFO] ------------------------------------------------------------------------
-[INFO] Building SonarQube Java :: Documentation :: Custom Rules Example 1.0.0-SNAPSHOT
-[INFO] ------------------------------------------------------------------------
+[INFO] -------------< org.sonar.samples.java:epfl-sonar-workshop >-------------
+[INFO] Building EPFL Sonar Workshop 7.16.0.30901
+[INFO]   from pom.xml
+[INFO] ----------------------------[ sonar-plugin ]----------------------------
+
   
 ...
  
@@ -693,7 +684,7 @@ $ mvn clean install -f pom_SQ_9_9_LTS.xml
 Then, grab the jar file `java-custom-rules-example-1.0.0-SNAPSHOT.jar` from the `target` folder of the project, and move it to the extensions folder of your SonarQube instance, which will be located at `$SONAR_HOME/extensions/plugins`.
 
 >
-> :exclamation: **SonarQube Java Plugin compatible version**
+> :exclamation: __SonarQube Java Plugin compatible version__
 >
 > Before going further, be sure to have the adequate version of the SonarQube Java Analyzer with your SonarQube instance. 
 > The dependency over the Java Analyzer of our custom plugin is defined in its `pom`, as seen in the first chapter of this tutorial. 
@@ -703,9 +694,9 @@ Then, grab the jar file `java-custom-rules-example-1.0.0-SNAPSHOT.jar` from the 
 > * Consequently, use the file `pom_SQ_9_9_LTS.xml` to build the project.
 >
 
-Now, (re-)start your SonarQube instance, log in as admin, and navigate to the ***Rules*** tab.
+Now, (re-)start your SonarQube instance, log in as admin, and navigate to the __Rules__ tab.
 
-From there, under the language section, select "**Java**", and then "**The Fellowship's custom rules**" (or "**MyCompany Custom Repository**" if you did not change it) under the repository section. 
+From there, under the language section, select "__Java__", and then "__Rules for the EPFL workshop__" under the repository section.
 Your rule should now be visible (with all the other sample rules).
 
 ![Selected rules](resources/rules_selected.png)
@@ -715,6 +706,8 @@ Once activated (not sure how? see [quality-profiles](https://docs.sonarqube.org/
 When encountering a method returning the same type as its parameter, the custom rule will now raise an issue, as visible in the following picture:
 
 ![Issues](resources/issues.png)
+
+## Tips and tricks
 
 ### How to define rule parameters
 
