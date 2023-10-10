@@ -637,23 +637,6 @@ class MyJavaFileCheckRegistrarTest {
 }
 ```
 
-### Rules repository
-
-With the actions taken above, your rule is activated, registered, and should be ready to test.
-But before doing so, you may want to customize the repository name your rule belongs to.
-
-This repository's key and name are defined in `MyJavaRulesDefinition.java` and can be customized to suit your needs.
-
-```java
-public class MyJavaRulesDefinition implements RulesDefinition {
-  // ...
-  public static final String REPOSITORY_KEY = "fellowship-inc";
-
-  public static final String REPOSITORY_NAME = "The Fellowship's custom rules";
-  // ...
-}
-```
-
 ## Testing a custom plugin
 
 At this point, we've completed the implementation of the first custom rule and registered it into the custom plugin.
@@ -661,7 +644,7 @@ The last remaining step is to test it directly with the SonarQube platform and t
 
 Start by building the project using Maven.
 
-```
+```shell
 $ mvn clean verify
 [INFO] Scanning for projects...
 [INFO]                                                                        
@@ -681,18 +664,7 @@ $ mvn clean verify
 [INFO] ------------------------------------------------------------------------
 ```
 
-Then, grab the jar file `java-custom-rules-example-1.0.0-SNAPSHOT.jar` from the `target` folder of the project, and move it to the extensions folder of your SonarQube instance, which will be located at `$SONAR_HOME/extensions/plugins`.
-
->
-> :exclamation: __SonarQube Java Plugin compatible version__
->
-> Before going further, be sure to have the adequate version of the SonarQube Java Analyzer with your SonarQube instance. 
-> The dependency over the Java Analyzer of our custom plugin is defined in its `pom`, as seen in the first chapter of this tutorial. 
-> We consequently provide two distinct `pom` files mapping both the `8.9` previous LTS version of SonarQube, as well as the latest LTS release, version `9.9`.
->
-> * If you are using a SonarQube `9.9` and updated to the latest LTS already, then you won't have the possibility to update the Java Analyzer independently anymore. 
-> * Consequently, use the file `pom_SQ_9_9_LTS.xml` to build the project.
->
+Then, grab the jar file [epfl-sonar-workshop-7.16.0.30901.jar](target/epfl-sonar-workshop-7.16.0.30901.jar) from the `target` folder of the project, and move it to the extensions folder of your SonarQube instance, which will be located at `$SONAR_HOME/extensions/plugins`.
 
 Now, (re-)start your SonarQube instance, log in as admin, and navigate to the __Rules__ tab.
 
