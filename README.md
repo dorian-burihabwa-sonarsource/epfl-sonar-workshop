@@ -16,7 +16,18 @@ For a more up-to-date and detailed version of this tutorial, please refer to the
 * [Getting Started with custom plugin development](#getting-started)
   * [Looking at the pom](#looking-at-the-pom)
 * [Writing a rule](#writing-a-rule)
-* [References](#references)
+  * [Three files to forge a rule](#three-files-to-forge-a-rule)
+  * [Defining expectations](#defining-expectations)
+  * [Bringing it together](#bringing-it-together)
+  * [First version: Using syntax trees and API basics](#first-version-using-syntax-trees-and-api-basics)
+  * [Second version: Using semantic API](#second-version-using-semantic-api)
+  * [What you can use, and what you can't](#what-you-can-use-and-what-you-cant)
+* [Registering the rule in the custom plugin](#registering-the-rule-in-the-custom-plugin)
+  * [Rule Metadata](#rule-metadata)
+  * [Rule Activation](#rule-activation)
+  * [Rule Registrar](#rule-registrar)
+* [Testing a custom plugin](#testing-a-custom-plugin)
+* [Tips and Tricks](#tips-and-tricks)
 * [Additional resources](#additional-resources)
 
 ## A brief introduction to SonarQube
@@ -171,13 +182,6 @@ __These versions cannot be changed__.
   <description>A custom rule plugin for SonarQube</description>
 ```
 
-## Writing a rule
-
-In this section, we will write a custom rule from scratch.
-To do so, we will use a [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) approach, relying on writing some test cases first, followed by the implementation of a solution.
-
-Let's first start by describing the rule we want to implement.
-
 ### A rule specification
 
 Every rule starts with a description of sort.
@@ -190,6 +194,11 @@ It can sometimes be arbitrary, see the following for example.
 We now have an arbitrary but scoped rule specification, let's implement the actual logic.
 
 ### Three files to forge a rule
+
+In this section, we will write a custom rule from scratch.
+To do so, we will use a [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) approach, relying on writing some test cases first, followed by the implementation of a solution.
+
+Let's first start by describing the rule we want to implement.
 
 When implementing a rule, there is always a minimum of three distinct files to create:
 
@@ -285,7 +294,7 @@ The test file now contains the following test cases:
 * __line 10:__ A method with more than 1 parameter (`foo6`);
 * __line 11:__ A method with a variable arity argument (`foo7`);
 
-### Adding a test harness
+### Bringing it together
 
 Once the test file is updated, let's update our test class to use it, and link the test to our (not yet implemented) rule.
 To do so, get back to our test class `ReturnTypeDifferentFromSingleParameterCheckTest`, and update the `test()` method as shown in the following code snippet (you may have to import class `org.sonar.java.checks.verifier.CheckVerifier`):
