@@ -187,55 +187,7 @@ It can sometimes be arbitrary, see the following for example.
 
 > *“For a method having a single parameter, the types of its return value and its parameter should never be the same.”*
 
-Before we implement this rule, we should first create the description and metadata that goes with it.
-
-Create the file `src/main/resources/org/sonar/l10n/java/rules/java/ReturnTypeDifferentFromSingleParameter.html` and copy the following HTML snippet in it.
-
-```html
-<p>Methods with a single parameter should not return values of the same type</p>
-<h2>Noncompliant Code Example</h2>
-<pre>
-    int doSomething(int value) {
-        // something is done
-    }
-
-    Object doSomethingElse(int value) {
-        // something is done
-    }
-</pre>
-<h2>Compliant Solution</h2>
-<pre>
-    void doSomething(int value) {
-        // something is done
-    }
-
-    Object doSomethingElse() {
-        // something is done
-    }
-
-    Object doSomethingElseAgain(int value, int other) {
-        // something is done
-    }
-</pre>
-```
-
-Next add some metadata for the rule by creating `src/main/resources/org/sonar/l10n/java/rules/java/ReturnTypeDifferentFromSingleParameter.html` and copying this content in it.
-
-```json
-{
-    "title": "Methods with a single parameter should not return values of the same type.",
-    "type": "CODE_SMELL",
-    "status": "ready",
-    "remediation": {
-      "func": "Constant\/Issue",
-      "constantCost": "42min"
-    },
-    "tags": [],
-    "defaultSeverity": "Minor"
-}
-```
-
-We now have a rule specification, let's implement the actual logic.
+We now have an arbitrary but scoped rule specification, let's implement the actual logic.
 
 ### Three files to forge a rule
 
@@ -536,29 +488,29 @@ If it passed...
 
 When writing custom Java rules, you can only use classes from package [org.sonar.plugins.java.api](https://github.com/SonarSource/sonar-java/tree/7.16.0.30901/java-frontend/src/main/java/org/sonar/plugins/java/api).
 
-When browsing the existing 600+ rules from the SonarSource Analyzer for Java, you will sometime notice the use of some other utility classes, is not part of the API. 
-While these classes could be sometime extremely useful in your context, **these classes are not available at runtime** for custom rule plugins. 
-It means that, while your unit tests are still going to pass when building your plugin, your rules will most likely make analysis **crash at analysis time**.
-
-Note that we are always open to discussion, so don't hesitate to reach us and participate in threads, through our [community forum](https://community.sonarsource.com/), to suggest features and API improvement!
+When browsing the existing 600+ rules from the SonarSource Analyzer for Java, you will sometime notice the use of some other utility classes, is not part of the API.
+While these classes could be sometime extremely useful in your context, __these classes are not available at runtime__ for custom rule plugins.
+It means that, while your unit tests are still going to pass when building your plugin, your rules will most likely make analysis __crash at analysis time__.
 
 ## Registering the rule in the custom plugin
 
-OK, you are probably quite happy at this point, as our first rule is running as expected... 
+OK, you are probably quite happy at this point, as our first rule is running as expected...
 However, we are not really done yet. 
 Before playing our rule against any real projects, we have to finalize its creation within the custom plugin, by registering it.
 
 ### Rule Metadata
+
 The first thing to do is to provide our rule with all the metadata which will allow us to register it properly in the SonarQube platform.
-There are two ways to add metadata for your rule: 
-* annotation and 
-* static documentation.
+There are two ways to add metadata for your rule:
+
+* annotation
+* static documentation
 
 While annotation provides a handy way to document the rule, static documentation offers the possibility for richer information.
 Incidentally, static documentation is also the way rules in the sonar-java analyzer are described.
 
 To provide metadata for your rule, you need to create an HTML file, where you can provide an extended textual description of the rule, and a JSON file, with the actual metadata.
-In the case of `MyFirstCustomRule`, you will head to the `src/main/resources/org/sonar/l10n/java/rules/java/` folder to create `MyFirstCustomRule.html` and `MyFirstCustomRule.json`.
+In the case of `ReturnTypeDifferentFromSingleParameter`, you will head to the `src/main/resources/org/sonar/l10n/java/rules/java/` folder to create `ReturnTypeDifferentFromSingleParameter.html` and `ReturnTypeDifferentFromSingleParameter.json`.
 
 We first need to populate the HTML file with some information that will help developers fix the issue.
 
@@ -596,15 +548,12 @@ We can now add metadata to `src/main/resources/org/sonar/l10n/java/rules/java/My
   "status": "ready",
   "tags": [
     "bugs",
-    "gandalf",
-    "magic"
   ],
   "defaultSeverity": "Critical"
 }
 ```
 
 With this example, we have a concise but descriptive `title` for our rule, the `type` of an issue it highlights, its status (ready or deprecated), the `tags` that should bring it up in a search, and the `severity` of the issue.
-
 
 ### Rule Activation
 
