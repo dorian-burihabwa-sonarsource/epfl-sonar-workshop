@@ -539,7 +539,7 @@ class MyClass {
 </pre>
 ```
 
-We can now add metadata to `src/main/resources/org/sonar/l10n/java/rules/java/MyFirstCustomRule.json`:
+We can now add metadata to `src/main/resources/org/sonar/l10n/java/rules/java/ReturnTypeDifferentFromSingleParameter.json`:
 
 ```json
 {
@@ -557,18 +557,18 @@ With this example, we have a concise but descriptive `title` for our rule, the `
 
 ### Rule Activation
 
-The second thing to do is to activate the rule within the plugin. 
-To do so, open the class `RulesList` (`org.sonar.samples.java.RulesList`). 
-In this class, you will notice methods `getJavaChecks()` and `getJavaTestChecks()`. 
-These methods are used to register our rules alongside the rule of the Java plugin. 
-Note that rules registered in `getJavaChecks()` will only be played against source files, while rules registered in `getJavaTestChecks()` will only be played against test files. 
+The second thing to do is to activate the rule within the plugin.
+To do so, open the class `RulesList` (`org.sonar.samples.java.RulesList`).
+In this class, you will notice methods `getJavaChecks()` and `getJavaTestChecks()`.
+These methods are used to register our rules alongside the rule of the Java plugin.
+Note that rules registered in `getJavaChecks()` will only be played against source files, while rules registered in `getJavaTestChecks()` will only be played against test files.
 To register the rule, simply add the rule class to the list builder, as in the following code snippet:
 
 ```java
 public static List<Class<? extends JavaCheck>> getJavaChecks() {
   return Collections.unmodifiableList(Arrays.asList(
       // other rules...
-      MyFirstCustomCheck.class
+      ReturnTypeDifferentFromSingleParameterCheck.class
     ));
 }
 
@@ -576,8 +576,8 @@ public static List<Class<? extends JavaCheck>> getJavaChecks() {
 
 ### Rule Registrar
 
-Because your rules are relying on the SonarSource Analyzer for Java API, you also need to tell the parent Java plugin that some new rules have to be retrieved. 
-If you are using the template custom plugin as a base of this tutorial, you should have everything done already, but feel free to have a look at the `MyJavaFileCheckRegistrar.java` class, which connects the dots. 
+Because your rules are relying on the SonarSource Analyzer for Java API, you also need to tell the parent Java plugin that some new rules have to be retrieved.
+If you are using the template custom plugin as a base of this tutorial, you should have everything done already, but feel free to have a look at the `MyJavaFileCheckRegistrar.java` class, which connects the dots.
 Finally, be sure that this registrar class is also correctly added as an extension for your custom plugin, by adding it to your Plugin definition class (`MyJavaRulesPlugin.java`).
 
 ```java
@@ -617,7 +617,7 @@ public class MyJavaFileCheckRegistrar implements CheckRegistrar {
 }
 ```
 
-Now, because we added a new rule, we also need to update our tests to make sure it is taken into account. 
+Now, because we added a new rule, we also need to update our tests to make sure it is taken into account.
 To do so, navigate to its corresponding test class, named `MyJavaFileCheckRegistrarTest`, and update the expected number of rules from 8 to 9.
 
 ```java
