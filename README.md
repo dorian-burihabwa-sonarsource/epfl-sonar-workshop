@@ -16,22 +16,6 @@ For a more up-to-date and detailed version of this tutorial, please refer to the
 * [Getting Started with custom plugin development](#getting-started)
   * [Looking at the pom](#looking-at-the-pom)
 * [Writing a rule](#writing-a-rule)
-  * [Three files to forge a rule](#three-files-to-forge-a-rule)
-  * [A specification to make it right](#a-specification-to-make-it-right)
-  * [A test file to rule them all](#a-test-file-to-rule-them-all)
-  * [A test class to make it pass](#a-test-class-to-make-it-pass)
-  * [First version: Using syntax trees and API basics](#first-version-using-syntax-trees-and-api-basics)
-  * [Second version: Using semantic API](#second-version-using-semantic-api)
-  * [What you can use, and what you can't](#what-you-can-use-and-what-you-cant)
-* [Registering the rule in the custom plugin](#registering-the-rule-in-the-custom-plugin)
-  * [Rule Metadata](#rule-metadata)
-  * [Rule Activation](#rule-activation)
-  * [Rule Registrar](#rule-registrar)
-* [Testing a custom plugin](#testing-a-custom-plugin)
-  * [How to define rule parameters](#how-to-define-rule-parameters)
-  * [How to test sources requiring external binaries](#how-to-test-sources-requiring-external-binaries)
-  * [How to test precise issue location](#how-to-test-precise-issue-location)
-  * [How to test the Source Version in a rule](#how-to-test-the-source-version-in-a-rule)
 * [References](#references)
 * [Additional resources](#additional-resources)
 
@@ -192,6 +176,67 @@ __These versions cannot be changed__.
 In this section, we will write a custom rule from scratch.
 To do so, we will use a [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) approach, relying on writing some test cases first, followed by the implementation of a solution.
 
+Let's first start by describing the rule we want to implement.
+
+### A rule specification
+
+Every rule starts with a description of sort.
+It describes the purpose and scope of the rule.
+
+It can sometimes be arbitrary, see the following for example.
+
+> *“For a method having a single parameter, the types of its return value and its parameter should never be the same.”*
+
+Before we implement this rule, we should first create the description and metadata that goes with it.
+
+Create the file `src/main/resources/org/sonar/l10n/java/rules/java/ReturnTypeDifferentFromSingleParameter.html` and copy the following HTML snippet in it.
+
+```html
+<p>Methods with a single parameter should not return values of the same type</p>
+<h2>Noncompliant Code Example</h2>
+<pre>
+    int doSomething(int value) {
+        // something is done
+    }
+
+    Object doSomethingElse(int value) {
+        // something is done
+    }
+</pre>
+<h2>Compliant Solution</h2>
+<pre>
+    void doSomething(int value) {
+        // something is done
+    }
+
+    Object doSomethingElse() {
+        // something is done
+    }
+
+    Object doSomethingElseAgain(int value, int other) {
+        // something is done
+    }
+</pre>
+```
+
+Next add some metadata for the rule by creating `src/main/resources/org/sonar/l10n/java/rules/java/ReturnTypeDifferentFromSingleParameter.html` and copying this content in it.
+
+```json
+{
+    "title": "Methods with a single parameter should not return values of the same type.",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+      "func": "Constant\/Issue",
+      "constantCost": "42min"
+    },
+    "tags": [],
+    "defaultSeverity": "Minor"
+}
+```
+
+We now have a rule specification, let's implement the actual logic.
+
 ### Three files to forge a rule
 
 When implementing a rule, there is always a minimum of three distinct files to create:
@@ -202,21 +247,21 @@ When implementing a rule, there is always a minimum of three distinct files to c
 
 To create our first custom rule (usually called a "*check*"), let's start by creating these three files in the template project, as described below:
 
-1. In folder `/src/test/files`, create a new empty file named `MyFirstCustomCheck.java`, and copy-paste the content of the following code snippet.
+1. In folder `/src/test/files`, create a new empty file named `ReturnTypeDifferentFromSingleParameterSample.java`, and copy-paste the content of the following code snippet.
 
 ```java
 class MyClass {
 }
 ```
 
-2. In package `org.sonar.samples.java.checks` of `/src/test/java`, create a new test class called `MyFirstCustomCheckTest` and copy-paste the content of the following code snippet.
+2. In package `org.sonar.samples.java.checks` of `/src/test/java`, create a new test class called `ReturnTypeDifferentFromSingleParameterCheckTest` and copy-paste the content of the following code snippet.
 
 ```java
 package org.sonar.samples.java.checks;
  
 import org.junit.jupiter.api.Test;
 
-class MyFirstCustomCheckTest {
+class ReturnTypeDifferentFromSingleParameterCheckTest {
 
   @Test
   void test() {
@@ -225,7 +270,7 @@ class MyFirstCustomCheckTest {
 }
 ```
 
-3. In package `org.sonar.samples.java.checks` of `/src/main/java`, create a new class called `MyFirstCustomCheck` extending class `org.sonar.plugins.java.api.IssuableSubscriptionVisitor` provided by the Java Plugin API.
+3. In package `org.sonar.samples.java.checks` of `/src/main/java`, create a new class called `ReturnTypeDifferentFromSingleParameter` extending class `org.sonar.plugins.java.api.IssuableSubscriptionVisitor` provided by the Java Plugin API.
 Then, replace the content of the `nodesToVisit()` method with the content from the following code snippet.
 This file will be described when dealing with the implementation of the rule!
 
@@ -238,8 +283,8 @@ import org.sonar.plugins.java.api.tree.Tree.Kind;
 import java.util.Collections;
 import java.util.List;
 
-@Rule(key = "MyFirstCustomRule")
-public class MyFirstCustomCheck extends IssuableSubscriptionVisitor {
+@Rule(key = "ReturnTypeDifferentFromSingleParameter")
+public class ReturnTypeDifferentFromSingleParameterCheck extends IssuableSubscriptionVisitor {
 
   @Override
   public List<Kind> nodesToVisit() {
@@ -249,38 +294,18 @@ public class MyFirstCustomCheck extends IssuableSubscriptionVisitor {
 }
 ```
 
->
-> Question: **More files...**
->
-> If the three files described above are always the base of rule writing, there are situations where extra files may be needed. 
-> For instance, when a rule uses parameters, or if its behavior relies on the detected version of Java, multiple test files could be required. 
-> It is also possible to use external files to describe rule metadata, such as a description in HTML format. 
-> Such situations will be described in other topics of this documentation.
->
+### Defining expectations
 
-### A specification to make it right
-
-Of course, before going any further, we need a key element in rule writing: a specification! 
-For the sake of the exercise, let's consider the following quote from a famous Guru as being the specification of our custom rule, as it is of course absolutely correct and incontrovertible.
-
->
-> **Gandalf - Why Program When Magic Rulez (WPWMR, p.42)**
->
-> *“For a method having a single parameter, the types of its return value and its parameter should never be the same.”*
->
-
-### A test file to rule them all
-
-Because we chose a TDD approach, the first thing to do is to write examples of the code our rule will target. 
-In this file, we consider numerous cases that our rule may encounter during an analysis, and flag the lines which will require our implementation to raise issues. 
-The flag to be used is a simple `// Noncompliant` trailing comment on the line of code where an issue should be raised. 
+Because we chose a TDD approach, the first thing to do is to write examples of the code our rule will target.
+In this file, we consider numerous cases that our rule may encounter during an analysis, and flag the lines which will require our implementation to raise issues.
+The flag to be used is a simple `// Noncompliant` trailing comment on the line of code where an issue should be raised.
 Why *Noncompliant*? Because the flagged lines do not *comply* with the rule.
 
-Covering all the possible cases is not necessarily required, the goal of this file is to cover all the situations which may be encountered during an analysis, but also to abstract irrelevant details. 
+Covering all the possible cases is not necessarily required, the goal of this file is to cover all the situations which may be encountered during an analysis, but also to abstract irrelevant details.
 For instance, in the context of our first rule, the name of a method, the content of its body, and the owner of the method make no difference, whether it's an abstract class, a concrete class, or an interface. 
 Note that this sample file should be structurally correct and all code should compile.
 
-In the test file `MyFirstCustomCheck.java` created earlier, copy-paste the following code:
+In the test file `ReturnTypeDifferentFromSingleParameterSample.java` created earlier, copy-paste the following code:
 
 ```java
 class MyClass {
@@ -298,39 +323,40 @@ class MyClass {
 ```
 
 The test file now contains the following test cases:
-* **line 2:** A constructor, to differentiate the case from a method;
-* **line 4:** A method without parameter (`foo1`);
-* **line 5:** A method returning void (`foo2`);
-* **line 6:** A method returning the same type as its parameter (`foo3`), which will be noncompliant;
-* **line 7:** A method with a single parameter, but a different return type (`foo4`);
-* **line 8:** Another method with a single parameter and same return type, but with non-primitive types (`foo5`), therefore noncompliant too;
-* **line 10:** A method with more than 1 parameter (`foo6`);
-* **line 11:** A method with a variable arity argument (`foo7`);
 
-### A test class to make it pass
+* __line 2:__ A constructor, to differentiate the case from a method;
+* __line 4:__ A method without parameter (`foo1`);
+* __line 5:__ A method returning void (`foo2`);
+* __line 6:__ A method returning the same type as its parameter (`foo3`), which will be noncompliant;
+* __line 7:__ A method with a single parameter, but a different return type (`foo4`);
+* __line 8:__ Another method with a single parameter and same return type, but with non-primitive types (`foo5`), therefore noncompliant too;
+* __line 10:__ A method with more than 1 parameter (`foo6`);
+* __line 11:__ A method with a variable arity argument (`foo7`);
 
-Once the test file is updated, let's update our test class to use it, and link the test to our (not yet implemented) rule. 
-To do so, get back to our test class `MyFirstCustomCheckTest`, and update the `test()` method as shown in the following code snippet (you may have to import class `org.sonar.java.checks.verifier.CheckVerifier`):
+### Adding a test harness
+
+Once the test file is updated, let's update our test class to use it, and link the test to our (not yet implemented) rule.
+To do so, get back to our test class `ReturnTypeDifferentFromSingleParameterCheckTest`, and update the `test()` method as shown in the following code snippet (you may have to import class `org.sonar.java.checks.verifier.CheckVerifier`):
 
 ```java
   @Test
   void test() {
     CheckVerifier.newVerifier()
-      .onFile("src/test/files/MyFirstCustomCheck.java")
-      .withCheck(new MyFirstCustomCheck())
+      .onFile("src/test/files/ReturnTypeDifferentFromSingleParameterCheck.java")
+      .withCheck(new ReturnTypeDifferentFromSingleParameterCheck())
       .verifyIssues();
   }
 ```
 
-As you probably noticed, this test class contains a single test, the purpose of which is to verify the behavior of the rule we are going to implement. 
-To do so, it relies on the usage of the `CheckVerifier` class, provided by the Java Analyzer rule-testing API. 
-This `CheckVerifier` class provides useful methods to validate rule implementations, allowing us to totally abstract all the mechanisms related to analyzer initialization. 
+As you probably noticed, this test class contains a single test, the purpose of which is to verify the behavior of the rule we are going to implement.
+To do so, it relies on the usage of the `CheckVerifier` class, provided by the Java Analyzer rule-testing API.
+This `CheckVerifier` class provides useful methods to validate rule implementations, allowing us to totally abstract all the mechanisms related to analyzer initialization.
 Note that while verifying a rule, the *verifier* will collect lines marked as being *Noncompliant*, and verify that the rule raises the expected issues and *only* those issues.
 
 Now, let's proceed to the next step of TDD: make the test fail!
 
 To do so, simply execute the test from the test file using JUnit. 
-The test should **fail** with the error message "**At least one issue expected**", as shown in the code snippet below. 
+The test should __fail__ with the error message "__At least one issue expected__", as shown in the code snippet below.
 Since our check is not yet implemented, no issue can be raised yet, so that's the expected behavior.
 
 ```
@@ -339,7 +365,7 @@ java.lang.AssertionError: No issue raised. At least one issue expected
     at org.sonar.java.checks.verifier.InternalCheckVerifier.checkIssues(InternalCheckVerifier.java:231)
     at org.sonar.java.checks.verifier.InternalCheckVerifier.verifyAll(InternalCheckVerifier.java:222)
     at org.sonar.java.checks.verifier.InternalCheckVerifier.verifyIssues(InternalCheckVerifier.java:167)
-    at org.sonar.samples.java.checks.MyFirstCustomCheckTest.test(MyFirstCustomCheckTest.java:13)
+    at org.sonar.samples.java.checks.ReturnTypeDifferentFromSingleParameterCheckTest.test(ReturnTypeDifferentFromSingleParameterCheckCheckTest.java:13)
     ...
 ```
 
@@ -347,22 +373,22 @@ java.lang.AssertionError: No issue raised. At least one issue expected
 
 Before we start with the implementation of the rule itself, you need a little background.
 
-Prior to running any rule, the SonarQube Java Analyzer parses a given Java code file and produces an equivalent data structure: the **Syntax Tree**. 
-Each construction of the Java language can be represented with a specific kind of Syntax Tree, detailing each of its particularities. 
-Each of these constructions is associated with a specific `Kind` as well as an interface explicitly describing all its particularities. 
-For instance, the kind associated with the declaration of a method will be `org.sonar.plugins.java.api.tree.Tree.Kind.METHOD`, and its interface defined by  `org.sonar.plugins.java.api.tree.MethodTree`. 
+Prior to running any rule, the SonarQube Java Analyzer parses a given Java code file and produces an equivalent data structure: the __Syntax Tree__.
+Each construction of the Java language can be represented with a specific kind of Syntax Tree, detailing each of its particularities.
+Each of these constructions is associated with a specific `Kind` as well as an interface explicitly describing all its particularities.
+For instance, the kind associated with the declaration of a method will be `org.sonar.plugins.java.api.tree.Tree.Kind.METHOD`, and its interface defined by  `org.sonar.plugins.java.api.tree.MethodTree`.
 All kinds are listed in the [`Kind` enum of the Java Analyzer API](https://github.com/SonarSource/sonar-java/blob/7.16.0.30901/java-frontend/src/main/java/org/sonar/plugins/java/api/tree/Tree.java#L47).
 
-When creating the rule class, we chose to implement the `IssuableSubscriptionVisitor` class from the API. 
-This class, on top of providing a bunch of useful methods to raise issues, also **defines the strategy which will be used when analyzing a file**. 
-As its name is telling us, it is based on a subscription mechanism, allowing to specify on what kind of tree the rule should react. 
-The list of node types to cover is specified through the `nodesToVisit()` method. 
+When creating the rule class, we chose to implement the `IssuableSubscriptionVisitor` class from the API.
+This class, on top of providing a bunch of useful methods to raise issues, also __defines the strategy which will be used when analyzing a file__.
+As its name is telling us, it is based on a subscription mechanism, allowing to specify on what kind of tree the rule should react.
+The list of node types to cover is specified through the `nodesToVisit()` method.
 
 In the previous steps, we modified the implementation of the method to return an empty list, therefore not subscribing to any node of the syntax tree.
 
-Now it's finally time to jump into the implementation of our first rule! 
-Go back to the `MyFirstCustomCheck` class, and modify the list of `Kind`s returned by the `nodesToVisit()` method. 
-Since our rule targets method declarations, we only need to visit methods. 
+Now it's finally time to jump into the implementation of our first rule!
+Go back to the `ReturnTypeDifferentFromSingleParameterCheck` class, and modify the list of `Kind`s returned by the `nodesToVisit()` method.
+Since our rule targets method declarations, we only need to visit methods.
 To do so, simply make sure that we return a singleton list containing only `Kind.METHOD` as a parameter of the returned list, as shown in the following code snippet.
 
 ```java
@@ -372,7 +398,7 @@ public List<Kind> nodesToVisit() {
 }
 ```
 
-Once the nodes to visit are specified, we have to implement how the rule will react when encountering method declarations. 
+Once the nodes to visit are specified, we have to implement how the rule will react when encountering method declarations.
 To do so, override method `visitNode(Tree tree)`, inherited from `SubscriptionVisitor` through `IssuableSubscriptionVisitor`.
 
 ```java
@@ -381,8 +407,8 @@ public void visitNode(Tree tree) {
 }
 ```
 
-Because we registered the rule to visit Method nodes, we know that every time the method is called, the tree parameter will be a `org.sonar.plugins.java.api.tree.MethodTree` (the interface tree associated with the `METHOD` kind). 
-As a first step, we can consequently safely cast the tree directly into a `MethodTree`, as shown below. 
+Because we registered the rule to visit Method nodes, we know that every time the method is called, the tree parameter will be a `org.sonar.plugins.java.api.tree.MethodTree` (the interface tree associated with the `METHOD` kind).
+As a first step, we can consequently safely cast the tree directly into a `MethodTree`, as shown below.
 Note that if we had registered multiple node types, we would have to test the node kind before casting by using the method `Tree.is(Kind ... kind)`.
 
 ```java
@@ -407,7 +433,7 @@ public void visitNode(Tree tree) {
 The method `reportIssue(Tree tree, String message)` from `IssuableSubscriptionVisitor` allows reporting an issue on a given tree with a specific message. 
 In this case, we chose to report the issue at a precise location, which will be the name of the method.
 
-Now, let's test our implementation by executing `MyFirstCustomCheckTest.test()` again.
+Now, let's test our implementation by executing `ReturnTypeDifferentFromSingleParameterCheckCheckTest.test()` again.
 
 ```
 java.lang.AssertionError: Unexpected at [5, 7, 11]
@@ -415,24 +441,24 @@ java.lang.AssertionError: Unexpected at [5, 7, 11]
     at org.sonar.java.checks.verifier.InternalCheckVerifier.checkIssues(InternalCheckVerifier.java:231)
     at org.sonar.java.checks.verifier.InternalCheckVerifier.verifyAll(InternalCheckVerifier.java:222)
     at org.sonar.java.checks.verifier.InternalCheckVerifier.verifyIssues(InternalCheckVerifier.java:167)
-    at org.sonar.samples.java.checks.MyFirstCustomCheckTest.test(MyFirstCustomCheckTest.java:13)
+    at org.sonar.samples.java.checks.ReturnTypeDifferentFromSingleParameterCheckCheckTest.test(ReturnTypeDifferentFromSingleParameterCheckCheckTest.java:13)
     ...
 ```
 
-Of course, our test failed again... 
-The `CheckVerifier` reported that lines 5, 7, and 11 are raising unexpected issues, as visible in the stack trace above. 
-By looking back at our test file, it's easy to figure out that raising an issue in line 5 is wrong because the return type of the method is `void`, line 7 is wrong because `Object` is not the same as `int`, and line 11 is also wrong because of the variable *arity* of the method. 
-Raising these issues is however correct accordingly to our implementation, as we didn't check for the types of the parameter and return type. 
-To handle type, however, we will need to rely on more than what we can achieve using only knowledge of the syntax tree. 
+Of course, our test failed again...
+The `CheckVerifier` reported that lines 5, 7, and 11 are raising unexpected issues, as visible in the stack trace above.
+By looking back at our test file, it's easy to figure out that raising an issue in line 5 is wrong because the return type of the method is `void`, line 7 is wrong because `Object` is not the same as `int`, and line 11 is also wrong because of the variable *arity* of the method.
+Raising these issues is however correct accordingly to our implementation, as we didn't check for the types of the parameter and return type.
+To handle type, however, we will need to rely on more than what we can achieve using only knowledge of the syntax tree.
 This time, we will need to use the semantic API!
 
 >
 > Question: **IssuableSubscriptionVisitor and BaseTreeVisitor**
 >
-> For the implementation of this rule, we chose to use an `IssuableSubscriptionVisitor` as the implementation basis of our rule. 
-> This visitor offers an easy approach to writing quick and simple rules because it allows us to narrow the focus of our rule to a given set of Kinds to visit by subscribing to them. 
-> However, this approach is not always the most optimal one. 
-> In such a situation, it could be useful to take a look at another visitor provided with the API: `org.sonar.plugins.java.api.tree.BaseTreeVisitor`. 
+> For the implementation of this rule, we chose to use an `IssuableSubscriptionVisitor` as the implementation basis of our rule.
+> This visitor offers an easy approach to writing quick and simple rules because it allows us to narrow the focus of our rule to a given set of Kinds to visit by subscribing to them.
+> However, this approach is not always the most optimal one.
+> In such a situation, it could be useful to take a look at another visitor provided with the API: `org.sonar.plugins.java.api.tree.BaseTreeVisitor`.
 > The `BaseTreeVisitor` contains a `visit()` method dedicated to each and every kind of syntax tree, and is particularly useful when the visit of a file has to be fine-tuned.
 >
 > In [rules already implemented in the Java Plugin](https://github.com/SonarSource/sonar-java/tree/7.16.0.30901/java-checks/src/main/java/org/sonar/java/checks), you will be able to find multiple rules using both approaches: An `IssuableSubscriptionVisitor` as an entry point, helped by simple `BaseTreeVisitor`(s) to identify the pattern in other parts of code.
