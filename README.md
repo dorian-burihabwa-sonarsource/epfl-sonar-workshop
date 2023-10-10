@@ -2,8 +2,19 @@
 
 This repository serves as the base project to implement custom rules for Java.
 It is derived from the [base template of the sonar-java project](https://github.com/SonarSource/sonar-java/tree/1947bdb5bec965afcee43087febf32245cb06253/docs/java-custom-rules-example).
+For a more up-to-date and detailed version of this tutorial, please refer to the official tutorial, [Writing Custom Java Rules 101](https://github.com/SonarSource/sonar-java/blob/1947bdb5bec965afcee43087febf32245cb06253/docs/CUSTOM_RULES_101.md).
 
-For more details about how to write custom rules, please refer to the official tutorial, [Writing Custom Java Rules 101](https://github.com/SonarSource/sonar-java/blob/1947bdb5bec965afcee43087febf32245cb06253/docs/CUSTOM_RULES_101.md).
+## Content
+
+- [A brief introduction to SonarQube](#a-brief-introduction-to-sonarqube)
+  - [Downloading SonarQube 9.9](#downloading-sonarqube-99)
+  - [Starting SonarQube](#starting-sonarqube)
+  - [Exploring SonarQube](#exploring-sonarqube)
+    - [Rules](#rules)
+    - [Quality profiles](#quality-profiles)
+    - [Quality gates](#quality-gates)
+- [Analyzing __this__ project with SonarQube](#adding-your-own-project-to-sonarqube)
+- [Additional resources](#additional-resources)
 
 ## A brief introduction to SonarQube
 
