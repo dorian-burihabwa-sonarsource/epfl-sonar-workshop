@@ -466,10 +466,10 @@ This time, we will need to use the semantic API!
 
 ### Second version: Using semantic API
 
-Up to now, our rule implementation only relied on the data provided directly by the syntax tree that resulted from the parsing of the code. 
-However, the SonarAnalyzer for Java provides a lot more regarding the code being analyzed, because it also constructs a ***semantic model*** of the code. 
-This semantic model provides information related to each ***symbol*** being manipulated. 
-For a method, for instance, the semantic API will provide useful data such as a method's owner, its usages, the types of its parameters and its return type, the exception it may throw, etc. 
+Up to now, our rule implementation only relied on the data provided directly by the syntax tree that resulted from the parsing of the code.
+However, the SonarAnalyzer for Java provides a lot more regarding the code being analyzed, because it also constructs a __semantic model__ of the code.
+This semantic model provides information related to each __symbol__ being manipulated.
+For a method, for instance, the semantic API will provide useful data such as a method's owner, its usages, the types of its parameters and its return type, the exception it may throw, etc.
 Don't hesitate to explore the [semantic package of the API](https://github.com/SonarSource/sonar-java/tree/7.16.0.30901/java-frontend/src/main/java/org/sonar/plugins/java/api/semantic) in order to have an idea of what kind of information you will have access to during analysis!
 
 But now, let's go back to our implementation and take advantage of the semantics.
@@ -488,7 +488,7 @@ public void visitNode(Tree tree) {
 
 ```
 
-From the symbol, it is then pretty easy to retrieve **the type of its first parameter**, as well as the **return type** (You may have to import `org.sonar.plugins.java.api.semantic.Symbol.MethodSymbol` and `org.sonar.plugins.java.api.semantic.Type`).
+From the symbol, it is then pretty easy to retrieve __the type of its first parameter__, as well as the __return type__ (You may have to import `org.sonar.plugins.java.api.semantic.Symbol.MethodSymbol` and `org.sonar.plugins.java.api.semantic.Type`).
 
 ```java
 @Override
@@ -520,14 +520,14 @@ public void visitNode(Tree tree) {
 }
 ```
 
-Now, **execute the test** class again.
+Now, __execute the test__ class again.
 
 Test passed? If not, then check if you somehow missed a step.
 
 If it passed...
 
 >
-> :tada: **Congratulations!** :confetti_ball:
+> :tada: __Congratulations!__ :confetti_ball:
 >
 > [*You implemented your first custom rule for the SonarQube Java Analyzer!*](resources/success.jpg)
 >
