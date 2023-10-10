@@ -644,8 +644,8 @@ The last remaining step is to test it directly with the SonarQube platform and t
 
 Start by building the project using Maven.
 
-```shell
-$ mvn clean verify
+```text
+$ ./mvnw clean verify
 [INFO] Scanning for projects...
 [INFO]                                                                        
 [INFO] -------------< org.sonar.samples.java:epfl-sonar-workshop >-------------
