@@ -1,0 +1,11 @@
+{
+    "title": "Methods with return type \"void\" should take at least one argument.",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+      "func": "Constant\/Issue",
+      "constantCost": "30min"
+    },
+    "tags": [],
+    "defaultSeverity": "Minor"
+}
