@@ -222,7 +222,7 @@ class ReturnTypeDifferentFromSingleParameterCheckTest {
 }
 ```
 
-3. In package `org.sonar.samples.java.checks` of `/src/main/java`, create a new class called `ReturnTypeDifferentFromSingleParameter` extending class `org.sonar.plugins.java.api.IssuableSubscriptionVisitor` provided by the Java Plugin API.
+3. In package `org.sonar.samples.java.checks` of `/src/main/java`, create a new class called `ReturnTypeDifferentFromSingleParameterCheck` extending class `org.sonar.plugins.java.api.IssuableSubscriptionVisitor` provided by the Java Plugin API.
 Then, replace the content of the `nodesToVisit()` method with the content from the following code snippet.
 This file will be described when dealing with the implementation of the rule!
 
@@ -267,7 +267,7 @@ class MyClass {
   void    foo2(int value) { }
   int     foo3(int value) { return 0; } // Noncompliant
   Object  foo4(int value) { return null; }
-  MyClass foo5(MyClass value) {return null; } // Noncompliant
+  MyClass foo5(MyClass value) { return null; } // Noncompliant
 
   int     foo6(int value, String name) { return 0; }
   int     foo7(int ... values) { return 0;}
@@ -498,6 +498,17 @@ OK, you are probably quite happy at this point, as our first rule is running as 
 However, we are not really done yet. 
 Before playing our rule against any real projects, we have to finalize its creation within the custom plugin, by registering it.
 
+### Sources conformity
+__FIXME__ This section should be removed
+
+The source files you added should be properly licensed.
+Formt he command line, you can run:
+```shell
+$ ./mvnw license:format
+```
+
+With this, you should be able to start registering the new rule.
+
 ### Rule Metadata
 
 The first thing to do is to provide our rule with all the metadata which will allow us to register it properly in the SonarQube platform.
@@ -547,7 +558,7 @@ We can now add metadata to `src/main/resources/org/sonar/l10n/java/rules/java/Re
   "type": "Bug",
   "status": "ready",
   "tags": [
-    "bugs",
+    "bugs"
   ],
   "defaultSeverity": "Critical"
 }
@@ -575,6 +586,8 @@ public static List<Class<? extends JavaCheck>> getJavaChecks() {
 ```
 
 ### Rule Registrar
+
+__FIXME__ The first code sample with the registrar can probably be removed here
 
 Because your rules are relying on the SonarSource Analyzer for Java API, you also need to tell the parent Java plugin that some new rules have to be retrieved.
 If you are using the template custom plugin as a base of this tutorial, you should have everything done already, but feel free to have a look at the `MyJavaFileCheckRegistrar.java` class, which connects the dots.
@@ -729,9 +742,9 @@ public interface JavaFileScannerContext {
 
 ## Additional resources
 
-- [SonarQube 9.9 Official documentation](https://docs.sonarsource.com/sonarqube/9.9)
-- [Sonar-java](https://github.com/SonarSource/sonar-java)
-- [Writing Custom Java Rules 101](https://github.com/SonarSource/sonar-java/blob/1947bdb5bec965afcee43087febf32245cb06253/docs/CUSTOM_RULES_101.md)
+* [SonarQube 9.9 Official documentation](https://docs.sonarsource.com/sonarqube/9.9)
+* [Sonar-java](https://github.com/SonarSource/sonar-java)
+* [Writing Custom Java Rules 101](https://github.com/SonarSource/sonar-java/blob/1947bdb5bec965afcee43087febf32245cb06253/docs/CUSTOM_RULES_101.md)
 
 ## License
 
