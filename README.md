@@ -15,7 +15,7 @@ For a more up-to-date and detailed version of this tutorial, please refer to the
     * [Quality gates](#quality-gates)
 * [Getting Started with custom plugin development](#getting-started)
   * [Looking at the pom](#looking-at-the-pom)
-* [Writing a rule](#writing-a-rule)
+* [Writing a rule together](#writing-a-rule)
   * [Three files to forge a rule](#three-files-to-forge-a-rule)
   * [Defining expectations](#defining-expectations)
   * [Bringing it together](#bringing-it-together)
@@ -27,6 +27,7 @@ For a more up-to-date and detailed version of this tutorial, please refer to the
   * [Rule Activation](#rule-activation)
   * [Rule Registrar](#rule-registrar)
 * [Testing a custom plugin](#testing-a-custom-plugin)
+* [Writing a rule on your own](#writing-a-rule-on-your-own)
 * [Tips and Tricks](#tips-and-tricks)
 * [Additional resources](#additional-resources)
 
@@ -150,7 +151,7 @@ Before moving on, ask yourself:
 
 ---
 
-## Writing custom rules
+## Writing a rule together
 
 The rules you develop will be delivered using a dedicated, custom plugin, relying on the __SonarSource Analyzer for Java API__.
 In order to start working efficiently, we provide a template Maven project that you will fill in while following this tutorial.
@@ -706,6 +707,46 @@ Once activated (not sure how? see [quality-profiles](https://docs.sonarsource.co
 When encountering a method returning the same type as its parameter, the custom rule will now raise an issue, as visible in the following picture:
 
 ![Issues](resources/issues.png)
+
+## Writing a rule on your own
+
+Following the methodology in the previous section, write a rule based on the following specification.
+
+> A method's return type should narrow down to match the type of the values returned
+
+```html
+<p>A method's return type should narrow down to match the potential value it matches</p>
+<p>Using a more specific type helps the caller to check the return value.</p>
+
+<h2>Noncompliant Code Example</h2>
+<pre>
+class MyClass {
+  Object f(boolean cond) { // Noncompliant
+    if (cond) {
+      return "b";
+    }
+    return "a";
+  }
+}
+</pre>
+
+<h2>Compliant Solution</h2>
+<pre>
+class MyClass {
+  String f(boolean cond) { // Compliant
+    if (cond) {
+      return "b";
+    }
+    return "a";
+  }
+}
+</pre>
+```
+
+Make sure to add test cases in your sample file where the rule is not supposed to raise.
+
+> __Hint__: Take a look at [NoIfStatementInTestsRule](src/main/java/org/sonar/samples/java/checks/NoIfStatementInTestsRule.java)
+
 
 ## Tips and tricks
 
