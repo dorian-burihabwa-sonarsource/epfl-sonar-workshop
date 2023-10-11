@@ -747,6 +747,12 @@ Make sure to add test cases in your sample file where the rule is not supposed t
 
 > __Hint__: Take a look at [NoIfStatementInTestsRule](src/main/java/org/sonar/samples/java/checks/NoIfStatementInTestsRule.java)
 
+## Bonus round
+
+Write a rule based on the following description.
+
+> Getters that return collections should return unmodifiable collections
+
 
 ## Tips and tricks
 
