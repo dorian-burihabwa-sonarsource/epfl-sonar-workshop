@@ -17,14 +17,6 @@ import org.sonarsource.analyzer.commons.RuleMetadataLoader;
  * That allows to list the rules in the page "Rules".
  */
 public class MyJavaRulesDefinition implements RulesDefinition {
-
-  Object f(boolean cond) {
-    if (cond) {
-      return "b";
-    }
-    return "a";
-  }
-
   // don't change that because the path is hard coded in CheckVerifier
   private static final String RESOURCE_BASE_PATH = "org/sonar/l10n/java/rules/java";
 
