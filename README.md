@@ -13,23 +13,23 @@ For a more up-to-date and detailed version of this tutorial, please refer to the
     * [Rules](#rules)
     * [Quality profiles](#quality-profiles)
     * [Quality gates](#quality-gates)
-* [Getting Started with custom plugin development](#getting-started)
-  * [Looking at the pom](#looking-at-the-pom)
-* [Writing a rule together](#writing-a-rule)
+* [Writing a rule together](#writing-a-rule-together)
   * [Three files to forge a rule](#three-files-to-forge-a-rule)
   * [Defining expectations](#defining-expectations)
   * [Bringing it together](#bringing-it-together)
   * [First version: Using syntax trees and API basics](#first-version-using-syntax-trees-and-api-basics)
   * [Second version: Using semantic API](#second-version-using-semantic-api)
   * [What you can use, and what you can't](#what-you-can-use-and-what-you-cant)
-* [Registering the rule in the custom plugin](#registering-the-rule-in-the-custom-plugin)
-  * [Rule Metadata](#rule-metadata)
-  * [Rule Activation](#rule-activation)
-  * [Rule Registrar](#rule-registrar)
-* [Testing a custom plugin](#testing-a-custom-plugin)
+  * [Registering the rule in the custom plugin](#registering-the-rule-in-the-custom-plugin)
+    * [Rule Metadata](#rule-metadata)
+    * [Rule Activation](#rule-activation)
+    * [Rule Registrar](#rule-registrar)
+  * [Testing a custom plugin](#testing-a-custom-plugin)
 * [Writing a rule on your own](#writing-a-rule-on-your-own)
-* [Tips and Tricks](#tips-and-tricks)
+* [Bonus Round](#bonus-round)
 * [Additional resources](#additional-resources)
+  * [Tips and Tricks](#tips-and-tricks)
+  * [References](#references)
 
 ## A brief introduction to SonarQube
 
@@ -156,32 +156,8 @@ Before moving on, ask yourself:
 The rules you develop will be delivered using a dedicated, custom plugin, relying on the __SonarSource Analyzer for Java API__.
 In order to start working efficiently, we provide a template Maven project that you will fill in while following this tutorial.
 
-Grab the template project by cloning [this repository](https://github.com/SonarSource/sonar-java) and then importing in your IDE the sub-module [java-custom-rules-examples](https://github.com/SonarSource/sonar-java/tree/master/docs/java-custom-rules-example).
-This project already contains examples of custom rules. Our goal will be to add an extra rule!
-
-### Looking at the POM
-
-A custom plugin is a Maven project, and before diving into code, it is important to notice a few relevant lines related to the configuration of your soon-to-be-released custom plugin.
-The root of a Maven project is a file named `pom.xml`.
-
-Let's start by building the custom-plugin template by using the following command:
-
-```shell
-./mvnw clean verify
-```
-
-Looking inside the `pom`, you will see that both SonarQube and the Java Analyzer versions are hard-coded.
-This is because SonarSource's analyzers are directly embedded in the various SonarQube versions and are shipped together.
-For instance, SonarQube `8.9` (previous LTS) is shipped with version `6.15.1.26025` of the Java Analyzer, while SonarQube `9.9` (LTS) is shipped with a much more recent version `7.16.0.30901` of the Java Analyzer.
-__These versions cannot be changed__.
-
-```xml
-  <groupId>org.sonar.samples.java</groupId>
-  <artifactId>epfl-sonar-workshop</artifactId>
-  <packaging>sonar-plugin</packaging>
-  <name>EPFL Sonar Workshop</name>
-  <description>A custom rule plugin for SonarQube</description>
-```
+This project already contains examples of custom rules.
+Our goal will be to add a few more!
 
 ### A rule specification
 
@@ -502,13 +478,13 @@ When browsing the existing 600+ rules from the SonarSource Analyzer for Java, yo
 While these classes could be sometime extremely useful in your context, __these classes are not available at runtime__ for custom rule plugins.
 It means that, while your unit tests are still going to pass when building your plugin, your rules will most likely make analysis __crash at analysis time__.
 
-## Registering the rule in the custom plugin
+### Registering the rule in the custom plugin
 
 OK, you are probably quite happy at this point, as our first rule is running as expected...
 However, we are not really done yet. 
 Before playing our rule against any real projects, we have to finalize its creation within the custom plugin, by registering it.
 
-### Sources conformity
+#### Sources conformity
 __FIXME__ This section should be removed
 
 The source files you added should be properly licensed.
@@ -519,7 +495,7 @@ $ ./mvnw license:format
 
 With this, you should be able to start registering the new rule.
 
-### Rule Metadata
+#### Rule Metadata
 
 The first thing to do is to provide our rule with all the metadata which will allow us to register it properly in the SonarQube platform.
 There are two ways to add metadata for your rule:
@@ -576,7 +552,7 @@ We can now add metadata to `src/main/resources/org/sonar/l10n/java/rules/java/Re
 
 With this example, we have a concise but descriptive `title` for our rule, the `type` of an issue it highlights, its status (ready or deprecated), the `tags` that should bring it up in a search, and the `severity` of the issue.
 
-### Rule Activation
+#### Rule Activation
 
 The second thing to do is to activate the rule within the plugin.
 To do so, open the class `RulesList` (`org.sonar.samples.java.RulesList`).
@@ -595,7 +571,7 @@ public static List<Class<? extends JavaCheck>> getJavaChecks() {
 
 ```
 
-### Rule Registrar
+#### Rule Registrar
 
 __FIXME__ The first code sample with the registrar can probably be removed here
 
@@ -660,7 +636,7 @@ class MyJavaFileCheckRegistrarTest {
 }
 ```
 
-## Testing a custom plugin
+### Testing a custom plugin
 
 At this point, we've completed the implementation of the first custom rule and registered it into the custom plugin.
 The last remaining step is to test it directly with the SonarQube platform and try to analyze a project!
@@ -753,23 +729,24 @@ Write a rule based on the following description.
 
 > Getters that return collections should return unmodifiable collections
 
+## Additional resources
 
-## Tips and tricks
+### Tips and tricks
 
-### How to define rule parameters
+#### How to define rule parameters
 
 You have to add a `@RuleProperty` to your Rule.
 
 Check this example: [SecurityAnnotationMandatoryRule.java](https://github.com/SonarSource/sonar-java/blob/7.16.0.30901/docs/java-custom-rules-example/src/main/java/org/sonar/samples/java/checks/SecurityAnnotationMandatoryRule.java)
 
-### How to test sources requiring external binaries
+#### How to test sources requiring external binaries
 
 In the `pom.xml`, define in the `Maven Dependency Plugin` part all the JARs you need to run your Unit Tests. 
 For example, if your sample code used in your Unit Tests is having a dependency on Spring, add it there.
 
 See: [pom.xml#L137-L197](./java-custom-rules-example/pom_SQ_9_9_LTS.xml#L137-L197)
 
-### How to test precise issue location
+#### How to test precise issue location
 
 You can raise an issue on a given line, but you can also raise it at a specific Token. 
 Because of that, you may want to specify, in your sample code used by your Unit Tests, the exact location, i.e. in between which 2 specific Columns, where you are expecting the issue to be raised.
@@ -783,7 +760,7 @@ public String updateOrder(Order order){ // Noncompliant [[sc=27;ec=32]] {{Don't 
 }
 ```
 
-### How to test the Source Version in a rule
+#### How to test the Source Version in a rule
 
 Starting from **Java Plugin API 3.7** (October 2015), the Java source version can be accessed directly when writing custom rules. 
 This can be achieved by simply calling the method `getJavaVersion()` from the context. 
@@ -802,7 +779,7 @@ public interface JavaFileScannerContext {
 }
 ```
 
-## Additional resources
+### References
 
 * [SonarQube 9.9 Official documentation](https://docs.sonarsource.com/sonarqube/9.9)
 * [Sonar-java](https://github.com/SonarSource/sonar-java)
