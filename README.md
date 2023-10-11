@@ -66,24 +66,24 @@ You can play around with the filters.
 
 Note how every rule has:
 
-- A unique key
-- A description
-- A type
-- A severity
-- A repository of origin
+* A unique key
+* A description
+* A type
+* A severity
+* A repository of origin
 
 Additionally, a rule may have:
 
-- Multiple language implementations
-- Tags
-- Customizable parameters
+* Multiple language implementations
+* Tags
+* Customizable parameters
 
 ---
 Before moving on, ask yourself:
 
-- How many rules are there for Java?
-- How many rules are there that apply both for Java and Kotlin?
-- Can you find a rule with a customizable parameter?
+* How many rules are there for Java?
+* How many rules are there that apply both for Java and Kotlin?
+* Can you find a rule with a customizable parameter?
 
 ---
 
@@ -95,16 +95,16 @@ It serves as the default quality profile.
 
 Such a profile can then be:
 
-- copied (an identical separate copy that can be modified)
-- extended (depends on the original one that can receive updates but can bring its own modifications)
+* copied (an identical separate copy that can be modified)
+* extended (depends on the original one that can receive updates but can bring its own modifications)
 
 The new profiles can then be set as defaults for our SonarQube instance or just used for some of our existing projects.
 
 ---
 Before moving on, ask yourself:
 
-- How many rules are there in the "Sonar Way" quality profile for Java?
-- Is there a difference with the number of available rules?
+* How many rules are there in the "Sonar Way" quality profile for Java?
+* Is there a difference with the number of available rules?
 
 ---
 
@@ -118,8 +118,8 @@ You can leverage this quality gate toggle in your CI pipeline to block releases 
 ---
 Before moving on, ask yourself:
 
-- What is the name of the default quality gate?
-- Is this quality gate applied to all code?
+* What is the name of the default quality gate?
+* Is this quality gate applied to all code?
 
 ---
 
@@ -129,13 +129,13 @@ We are going to analyze our first project with SonarQube.
 First, clone or get a copy of the [spring-petclinic project](https://github.com/spring-projects/spring-petclinic).
 Then follow the instructions to get the project analyzed.
 
-- On the ["How do you want to create your project?"](http://localhost:9000/projects/create) Select ["Manually"](http://localhost:9000/projects/create?mode=manual).
-- Enter "spring-petclinic" as the project name and project key, and click "Set Up"
-- Select ["Locally"](http://localhost:9000/dashboard?id=epfl-sonar-workshop&selectedTutorial=local),
-- On the "Provide a token" step, create the 30-days token and __make a copy of it__.
-- On the "Run analysis on your project" step, select Maven and __make a copy of the command suggested by SonarQube__
-- __Before running the command, replace "mvn" with "./mvnw" on Linux/Mac__
-- Open a terminal at the root of the project and run the command suggested by SonarQube
+* On the ["How do you want to create your project?"](http://localhost:9000/projects/create) Select ["Manually"](http://localhost:9000/projects/create?mode=manual).
+* Enter "spring-petclinic" as the project name and project key, and click "Set Up"
+* Select ["Locally"](http://localhost:9000/dashboard?id=epfl-sonar-workshop&selectedTutorial=local),
+* On the "Provide a token" step, create the 30-days token and __make a copy of it__.
+* On the "Run analysis on your project" step, select Maven and __make a copy of the command suggested by SonarQube__
+* __Before running the command, replace "mvn" with "./mvnw" on Linux/Mac__
+* Open a terminal at the root of the project and run the command suggested by SonarQube
 
 If the command succeeds, your browser tab should update soon with the results of the analysis.
 
@@ -144,10 +144,10 @@ Take some time to look around and explore the results of the analysis.
 ---
 Before moving on, ask yourself:
 
-- How many issues are detected?
-- What is the status of the quality gate?
-- What is the version of the project you analyzed?
-- How many lines of code are there in the project?
+* How many issues are detected?
+* What is the status of the quality gate?
+* What is the version of the project you analyzed?
+* How many lines of code are there in the project?
 
 ---
 
@@ -240,7 +240,7 @@ The flag to be used is a simple `// Noncompliant` trailing comment on the line o
 Why *Noncompliant*? Because the flagged lines do not *comply* with the rule.
 
 Covering all the possible cases is not necessarily required, the goal of this file is to cover all the situations which may be encountered during an analysis, but also to abstract irrelevant details.
-For instance, in the context of our first rule, the name of a method, the content of its body, and the owner of the method make no difference, whether it's an abstract class, a concrete class, or an interface. 
+For instance, in the context of our first rule, the name of a method, the content of its body, and the owner of the method make no difference, whether it's an abstract class, a concrete class, or an interface.
 Note that this sample file should be structurally correct and all code should compile.
 
 In the test file `ReturnTypeDifferentFromSingleParameterSample.java` created earlier, copy-paste the following code:
@@ -293,11 +293,11 @@ Note that while verifying a rule, the *verifier* will collect lines marked as be
 
 Now, let's proceed to the next step of TDD: make the test fail!
 
-To do so, simply execute the test from the test file using JUnit. 
+To do so, simply execute the test from the test file using JUnit.
 The test should __fail__ with the error message "__At least one issue expected__", as shown in the code snippet below.
 Since our check is not yet implemented, no issue can be raised yet, so that's the expected behavior.
 
-```
+```text
 java.lang.AssertionError: No issue raised. At least one issue expected
     at org.sonar.java.checks.verifier.InternalCheckVerifier.assertMultipleIssues(InternalCheckVerifier.java:291)
     at org.sonar.java.checks.verifier.InternalCheckVerifier.checkIssues(InternalCheckVerifier.java:231)
@@ -368,12 +368,12 @@ public void visitNode(Tree tree) {
 }
 ```
 
-The method `reportIssue(Tree tree, String message)` from `IssuableSubscriptionVisitor` allows reporting an issue on a given tree with a specific message. 
+The method `reportIssue(Tree tree, String message)` from `IssuableSubscriptionVisitor` allows reporting an issue on a given tree with a specific message.
 In this case, we chose to report the issue at a precise location, which will be the name of the method.
 
 Now, let's test our implementation by executing `ReturnTypeDifferentFromSingleParameterCheckCheckTest.test()` again.
 
-```
+```text
 java.lang.AssertionError: Unexpected at [5, 7, 11]
     at org.sonar.java.checks.verifier.InternalCheckVerifier.assertMultipleIssues(InternalCheckVerifier.java:303)
     at org.sonar.java.checks.verifier.InternalCheckVerifier.checkIssues(InternalCheckVerifier.java:231)
@@ -481,16 +481,18 @@ It means that, while your unit tests are still going to pass when building your 
 ### Registering the rule in the custom plugin
 
 OK, you are probably quite happy at this point, as our first rule is running as expected...
-However, we are not really done yet. 
+However, we are not really done yet.
 Before playing our rule against any real projects, we have to finalize its creation within the custom plugin, by registering it.
 
 #### Sources conformity
+
 __FIXME__ This section should be removed
 
 The source files you added should be properly licensed.
 Formt he command line, you can run:
+
 ```shell
-$ ./mvnw license:format
+./mvnw license:format
 ```
 
 With this, you should be able to start registering the new rule.
@@ -677,7 +679,6 @@ Set the new quality profile as default by clicking on the Gear icon at the top r
 Select the "Activate More" option and find your rule using the search bar.
 Select your rule and click "Activate".
 
-
 Once activated (not sure how? see [quality-profiles](https://docs.sonarsource.com/sonarqube/9.9/instance-administration/quality-profiles/)), the only step remaining is to analyze one of your projects!
 
 When encountering a method returning the same type as its parameter, the custom rule will now raise an issue, as visible in the following picture:
@@ -741,17 +742,17 @@ Check this example: [SecurityAnnotationMandatoryRule.java](https://github.com/So
 
 #### How to test sources requiring external binaries
 
-In the `pom.xml`, define in the `Maven Dependency Plugin` part all the JARs you need to run your Unit Tests. 
+In the `pom.xml`, define in the `Maven Dependency Plugin` part all the JARs you need to run your Unit Tests.
 For example, if your sample code used in your Unit Tests is having a dependency on Spring, add it there.
 
 See: [pom.xml#L137-L197](./java-custom-rules-example/pom_SQ_9_9_LTS.xml#L137-L197)
 
 #### How to test precise issue location
 
-You can raise an issue on a given line, but you can also raise it at a specific Token. 
+You can raise an issue on a given line, but you can also raise it at a specific Token.
 Because of that, you may want to specify, in your sample code used by your Unit Tests, the exact location, i.e. in between which 2 specific Columns, where you are expecting the issue to be raised.
 
-This can be achieved using the special keywords `sc` (start-column) and `ec` (end-column) in the `// Noncompliant` comment. 
+This can be achieved using the special keywords `sc` (start-column) and `ec` (end-column) in the `// Noncompliant` comment.
 In the following example, we are expecting to have the issue being raised between the columns 27 and 32 (i.e. exactly on the "Order" variable type):
 
 ```java
@@ -762,9 +763,9 @@ public String updateOrder(Order order){ // Noncompliant [[sc=27;ec=32]] {{Don't 
 
 #### How to test the Source Version in a rule
 
-Starting from **Java Plugin API 3.7** (October 2015), the Java source version can be accessed directly when writing custom rules. 
-This can be achieved by simply calling the method `getJavaVersion()` from the context. 
-Note that the method will return null only when the property is not set. 
+Starting from __Java Plugin API 3.7__ (October 2015), the Java source version can be accessed directly when writing custom rules.
+This can be achieved by simply calling the method `getJavaVersion()` from the context.
+Note that the method will return null only when the property is not set.
 Similarly, it is possible to specify to the verifier a version of Java to be considered as runtime execution, calling method `verify(String filename, JavaFileScanner check, int javaVersion)`.
 
 ```java
