@@ -35,7 +35,7 @@ For a more up-to-date and detailed version of this tutorial, please refer to the
 
 ### Downloading SonarQube 9.9
 
-Start by getting a copy of SonarQube 9.9 Community edition from the [SonarQube website](https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.2.77).
+Start by getting a copy of SonarQube 9.9 Community edition from the [SonarQube website](https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.2.77730.zip).
 
 ### Starting SonarQube
 
