@@ -78,14 +78,11 @@ Additionally, a rule may have:
 * Tags
 * Customizable parameters
 
----
-Before moving on, ask yourself:
-
-* How many rules are there for Java?
-* How many rules are there that apply both for Java and Kotlin?
-* Can you find a rule with a customizable parameter?
-
----
+> Before moving on, ask yourself:
+>
+> * How many rules are there for Java?
+> * How many rules are there that apply both for Java and Kotlin?
+> * Can you find a rule with a customizable parameter?
 
 #### Quality profiles
 
@@ -100,13 +97,10 @@ Such a profile can then be:
 
 The new profiles can then be set as defaults for our SonarQube instance or just used for some of our existing projects.
 
----
-Before moving on, ask yourself:
-
-* How many rules are there in the "Sonar Way" quality profile for Java?
-* Is there a difference with the number of available rules?
-
----
+> Before moving on, ask yourself:
+>
+> * How many rules are there in the "Sonar Way" quality profile for Java?
+> * Is there a difference with the number of available rules?
 
 #### Quality gates
 
@@ -115,13 +109,10 @@ It is a combination of a quality profile and a set of conditions that should be 
 The quality gate can either pass (turning green) or  fail (turning red).
 You can leverage this quality gate toggle in your CI pipeline to block releases or trigger alerts for your development team.
 
----
-Before moving on, ask yourself:
-
-* What is the name of the default quality gate?
-* Is this quality gate applied to all code?
-
----
+> Before moving on, ask yourself:
+>
+> * What is the name of the default quality gate?
+> * Is this quality gate applied to all code?
 
 ## Analyzing your first project with SonarQube
 
@@ -141,15 +132,12 @@ If the command succeeds, your browser tab should update soon with the results of
 
 Take some time to look around and explore the results of the analysis.
 
----
-Before moving on, ask yourself:
-
-* How many issues are detected?
-* What is the status of the quality gate?
-* What is the version of the project you analyzed?
-* How many lines of code are there in the project?
-
----
+> Before moving on, ask yourself:
+>
+> * How many issues are detected?
+> * What is the status of the quality gate?
+> * What is the version of the project you analyzed?
+> * How many lines of code are there in the project?
 
 ## Writing a rule together
 
