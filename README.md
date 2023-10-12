@@ -12,6 +12,7 @@ It is derived from the [base template of the sonar-java project](https://github.
     * [Rules](#rules)
     * [Quality profiles](#quality-profiles)
     * [Quality gates](#quality-gates)
+* [Analyzing your first project](#analyzing-your-first-project-with-sonarqube)
 * [Writing a rule together](#writing-a-rule-together)
   * [Three files to forge a rule](#three-files-to-forge-a-rule)
   * [Defining expectations](#defining-expectations)
@@ -80,7 +81,6 @@ Additionally, a rule may have:
 > Before moving on, ask yourself:
 >
 > * How many rules are there for Java?
-> * How many rules are there that apply both for Java and Kotlin?
 > * Can you find a rule with a customizable parameter?
 
 #### Quality profiles
@@ -124,8 +124,10 @@ Then follow the instructions to get the project analyzed.
 * Select ["Locally"](http://localhost:9000/dashboard?id=epfl-sonar-workshop&selectedTutorial=local),
 * On the "Provide a token" step, create the 30-days token and __make a copy of it__.
 * On the "Run analysis on your project" step, select Maven and __make a copy of the command suggested by SonarQube__
-* __Before running the command, replace "mvn" with "./mvnw" on Linux/Mac__
-* Open a terminal at the root of the project and run the command suggested by SonarQube
+* __Before running the command, modify the command__:
+  * replace `mvn` with `./mvnw` on Linux/Mac
+  * add `-DskipTests=true` to the command (the tests of project are flaky)
+* Open a terminal at the root of the project and run the command to start the analysis
 
 If the command succeeds, your browser tab should update soon with the results of the analysis.
 
