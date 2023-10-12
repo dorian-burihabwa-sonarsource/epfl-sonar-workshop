@@ -684,7 +684,7 @@ Following the methodology in the previous section, write a rule based on the fol
 <h2>Noncompliant Code Example</h2>
 <pre>
 class MyClass {
-  Object f(boolean cond) { // Noncompliant
+  String f(boolean cond) { // Noncompliant {{Change the return type to "String".}}
     if (cond) {
       return "b";
     }
@@ -704,6 +704,21 @@ class MyClass {
   }
 }
 </pre>
+```
+```json
+{
+  "title": "Broad return types should be avoided",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "10min"
+  },
+  "tags": [
+    "design"
+  ],
+  "defaultSeverity": "Minor"
+}
 ```
 
 Make sure to add test cases in your sample file where the rule is not supposed to raise.
