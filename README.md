@@ -20,6 +20,7 @@ It is derived from the [base template of the sonar-java project](https://github.
   * [First version: Using syntax trees and API basics](#first-version-using-syntax-trees-and-api-basics)
   * [Second version: Using semantic API](#second-version-using-semantic-api)
   * [What you can use, and what you can't](#what-you-can-use-and-what-you-cant)
+  * [Visualizing the AST](#visualizing-the-ast)
   * [Registering the rule in the custom plugin](#registering-the-rule-in-the-custom-plugin)
     * [Rule Metadata](#rule-metadata)
     * [Rule Activation](#rule-activation)
@@ -466,6 +467,20 @@ When writing custom Java rules, you can only use classes from package [org.sonar
 When browsing the existing 600+ rules from the SonarSource Analyzer for Java, you will sometime notice the use of some other utility classes, is not part of the API.
 While these classes could be sometime extremely useful in your context, __these classes are not available at runtime__ for custom rule plugins.
 It means that, while your unit tests are still going to pass when building your plugin, your rules will most likely make analysis __crash at analysis time__.
+
+### Visualizing the AST
+
+It may be difficult to understand how the different parts of a tree are brought together in the AST.
+This is, in the end, a very specific implementation of the AST for the Java analyzer.
+
+To help along the way, you may want to use the [source graph viewer](./tools/source-graph-viewer.jar).
+
+```shell
+java -jar ./tools/source-graph-viewer.jar
+```
+
+This tool will open a webserver on [localhost:9999](http://localhost:9999) allowing you to test samples of Java code and looking at their ASTs (the interface defaults to the CFG but you should alwas the option to look at the AST).
+The AST rendered should give you an accurate representation of the AST that you will encounter in the analyzer.
 
 ### Registering the rule in the custom plugin
 
