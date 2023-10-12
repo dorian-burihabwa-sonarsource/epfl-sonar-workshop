@@ -1,8 +1,7 @@
-# EPFL Sonar Workshop (October 2023)
+# Forum EPFL - Sonar Workshop (October 2023)
 
-This repository serves as the base project to implement custom rules for Java.
+This repository contains the project skeleton to implement custom Java rules.
 It is derived from the [base template of the sonar-java project](https://github.com/SonarSource/sonar-java/tree/1947bdb5bec965afcee43087febf32245cb06253/docs/java-custom-rules-example).
-For a more up-to-date and detailed version of this tutorial, please refer to the official tutorial, [Writing Custom Java Rules 101](https://github.com/SonarSource/sonar-java/blob/1947bdb5bec965afcee43087febf32245cb06253/docs/CUSTOM_RULES_101.md).
 
 ## Content
 
@@ -268,7 +267,7 @@ To do so, get back to our test class `ReturnTypeDifferentFromSingleParameterChec
   @Test
   void test() {
     CheckVerifier.newVerifier()
-      .onFile("src/test/files/ReturnTypeDifferentFromSingleParameterCheck.java")
+      .onFile("src/test/files/ReturnTypeDifferentFromSingleParameterSample.java")
       .withCheck(new ReturnTypeDifferentFromSingleParameterCheck())
       .verifyIssues();
   }
@@ -474,10 +473,9 @@ Before playing our rule against any real projects, we have to finalize its creat
 
 #### Sources conformity
 
-__FIXME__ This section should be removed
-
-The source files you added should be properly licensed.
-Formt he command line, you can run:
+For this workshop, the license on the source files does not matter.
+However, there is a check for it in the build steps that we did not have the time to remove.
+To apply the license from the command line, you can run:
 
 ```shell
 ./mvnw license:format
@@ -562,8 +560,6 @@ public static List<Class<? extends JavaCheck>> getJavaChecks() {
 ```
 
 #### Rule Registrar
-
-__FIXME__ The first code sample with the registrar can probably be removed here
 
 Because your rules are relying on the SonarSource Analyzer for Java API, you also need to tell the parent Java plugin that some new rules have to be retrieved.
 If you are using the template custom plugin as a base of this tutorial, you should have everything done already, but feel free to have a look at the `MyJavaFileCheckRegistrar.java` class, which connects the dots.
