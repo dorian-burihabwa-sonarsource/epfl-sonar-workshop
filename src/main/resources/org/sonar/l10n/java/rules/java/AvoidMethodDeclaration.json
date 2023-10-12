@@ -1,13 +1,11 @@
 {
-  "title": "Avoid method declarations",
-  "type": "BUG",
+  "title": "A method's return type should narrow down to match the potential value it matches",
+  "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",
-    "constantCost": "10min"
+    "constantCost": "30min"
   },
-  "tags": [
-    "pitfall"
-  ],
+  "tags": [],
   "defaultSeverity": "Minor"
 }

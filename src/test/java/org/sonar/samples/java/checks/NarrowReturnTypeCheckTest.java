@@ -7,13 +7,13 @@ package org.sonar.samples.java.checks;
 import org.junit.jupiter.api.Test;
 import org.sonar.java.checks.verifier.CheckVerifier;
 
-class ReturnTypeDifferentFromSingleParameterCheckTest {
+class NarrowReturnTypeCheckTest {
 
   @Test
   void test() {
     CheckVerifier.newVerifier()
-      .onFile("src/test/files/ReturnTypeDifferentFromSingleParameterSample.java")
-      .withCheck(new ReturnTypeDifferentFromSingleParameterCheck())
+      .onFile("src/test/files/NarrowReturnTypeSample.java")
+      .withCheck(new NarrowReturnTypeCheck())
       .verifyIssues();
   }
 }

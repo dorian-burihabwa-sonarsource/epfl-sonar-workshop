@@ -1,0 +1,26 @@
+<p>A method's return type should narrow down to match the potential value it matches</p>
+<p>Using a more specific type helps the caller to check the return value.</p>
+
+<h2>Noncompliant Code Example</h2>
+<pre>
+class MyClass {
+  Object f(boolean cond) { // Noncompliant
+    if (cond) {
+      return "b";
+    }
+    return "a";
+  }
+}
+</pre>
+
+<h2>Compliant Solution</h2>
+<pre>
+class MyClass {
+  String f(boolean cond) { // Compliant
+    if (cond) {
+      return "b";
+    }
+    return "a";
+  }
+}
+</pre>

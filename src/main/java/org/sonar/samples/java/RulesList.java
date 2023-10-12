@@ -15,6 +15,7 @@ import org.sonar.samples.java.checks.AvoidMethodDeclarationRule;
 import org.sonar.samples.java.checks.AvoidSuperClassRule;
 import org.sonar.samples.java.checks.AvoidTreeListRule;
 import org.sonar.samples.java.checks.MyCustomSubscriptionRule;
+import org.sonar.samples.java.checks.NarrowReturnTypeCheck;
 import org.sonar.samples.java.checks.NoIfStatementInTestsRule;
 import org.sonar.samples.java.checks.ReturnTypeDifferentFromSingleParameterCheck;
 import org.sonar.samples.java.checks.SecurityAnnotationMandatoryRule;
@@ -44,6 +45,7 @@ public final class RulesList {
       AvoidSuperClassRule.class,
       AvoidTreeListRule.class,
       MyCustomSubscriptionRule.class,
+      NarrowReturnTypeCheck.class,
       ReturnTypeDifferentFromSingleParameterCheck.class,
       SecurityAnnotationMandatoryRule.class));
   }
