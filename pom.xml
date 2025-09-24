@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012-2025 SonarSource SA - mailto:info AT sonarsource DOT com
+    This code is released under [MIT No Attribution](https://opensource.org/licenses/MIT-0) license.
+
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.sonarsource.java</groupId>
     <artifactId>docs</artifactId>
-    <version>7.16.0.30901</version>
+    <version>8.18.0.40025</version>
   </parent>
 
 
@@ -73,6 +79,15 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+           <groupId>org.sonarsource.scanner.maven</groupId>
+           <artifactId>sonar-maven-plugin</artifactId>
+           <version>5.2.0.4988</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
@@ -84,7 +99,8 @@
           <pluginClass>org.sonar.samples.java.MyJavaRulesPlugin</pluginClass>
           <sonarLintSupported>true</sonarLintSupported>
           <skipDependenciesPackaging>true</skipDependenciesPackaging>
-          <sonarQubeMinVersion>9.9</sonarQubeMinVersion>
+          <pluginApiMinVersion>9.9</pluginApiMinVersion>
+          <requiredForLanguages>java</requiredForLanguages>
           <requirePlugins>java:${project.version}</requirePlugins>
         </configuration>
       </plugin>
@@ -198,7 +214,7 @@
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
-          <header>${project.basedir}/src/main/resources/license-header.txt</header>
+          <skip>true</skip>
         </configuration>
       </plugin>
     </plugins>
