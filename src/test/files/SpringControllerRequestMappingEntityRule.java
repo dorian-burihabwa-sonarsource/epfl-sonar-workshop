@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2012-2025 SonarSource SA - mailto:info AT sonarsource DOT com
+ * This code is released under [MIT No Attribution](https://opensource.org/licenses/MIT-0) license.
+ */
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.persistence.Entity;
@@ -6,7 +10,8 @@ import javax.persistence.Entity;
 public class HelloController {
 
   @RequestMapping("/updateOrder")
-  public String updateOrder(Order order, Client client) { // Noncompliant [[sc=29;ec=34]] {{Don't use Order here because it's an @Entity}}
+  public String updateOrder(Order order, Client client) { // Noncompliant {{Don't use Order here because it's an @Entity}}
+    //                      ^^^^^
     return null;
   }
 

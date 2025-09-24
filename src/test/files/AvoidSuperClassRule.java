@@ -1,4 +1,8 @@
 /*
+ * Copyright (C) 2012-2025 SonarSource SA - mailto:info AT sonarsource DOT com
+ * This code is released under [MIT No Attribution](https://opensource.org/licenses/MIT-0) license.
+ */
+/*
  * Creation : 20 avr. 2015
  */
 package org.sonar.samples.java;

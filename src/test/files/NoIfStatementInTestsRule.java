@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2012-2025 SonarSource SA - mailto:info AT sonarsource DOT com
+ * This code is released under [MIT No Attribution](https://opensource.org/licenses/MIT-0) license.
+ */
 package org.foo.bar;
 
 import java.util.stream.Stream;
@@ -9,7 +13,8 @@ public class ATest {
 
   @Test
   public void myTest() {
-    if (someCondition) { // Noncompliant [[sc=5;ec=7]] {{Remove this 'if' statement from this test.}}
+    if (someCondition) { // Noncompliant {{Remove this 'if' statement from this test.}}
+//  ^^
       // verify something
     }
   }
