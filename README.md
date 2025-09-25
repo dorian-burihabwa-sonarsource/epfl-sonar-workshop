@@ -1,4 +1,4 @@
-# Forum EPFL - Sonar Workshop (October 2023)
+# Forum EPFL - Sonar Workshop (October 2025)
 
 This repository contains the project skeleton to implement custom Java rules.
 It is derived from the [base template of the sonar-java project](https://github.com/SonarSource/sonar-java/tree/1947bdb5bec965afcee43087febf32245cb06253/docs/java-custom-rules-example).
@@ -6,7 +6,7 @@ It is derived from the [base template of the sonar-java project](https://github.
 ## Content
 
 * [A brief introduction to SonarQube](#a-brief-introduction-to-sonarqube)
-  * [Downloading SonarQube 9.9](#downloading-sonarqube-99)
+  * [Downloading SonarQube v25.9](#downloading-sonarqube-v259)
   * [Starting SonarQube](#starting-sonarqube)
   * [Exploring SonarQube](#exploring-sonarqube)
     * [Rules](#rules)
@@ -33,9 +33,8 @@ It is derived from the [base template of the sonar-java project](https://github.
 
 ## A brief introduction to SonarQube
 
-### Downloading SonarQube 9.9
-
-Start by getting a copy of SonarQube 9.9 Community edition from the [SonarQube website](https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.2.77730.zip).
+### Downloading SonarQube v25.9 
+Start by getting a copy of SonarQube v25.9 Community Build from the [SonarQube website](https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-25.9.0.112764.zip).
 
 ### Starting SonarQube
 
@@ -87,7 +86,6 @@ Additionally, a rule may have:
 
 In order to apply a set of rules to your project, they can be grouped as __quality profiles__.
 Sonar provides default a quality profile named "Sonar way".
-It serves as the default quality profile.
 
 Such a profile can then be:
 
@@ -121,9 +119,10 @@ Then follow the instructions to get the project analyzed.
 
 * On the ["How do you want to create your project?"](http://localhost:9000/projects/create) Select ["Manually"](http://localhost:9000/projects/create?mode=manual).
 * Enter "spring-petclinic" as the project name and project key, and click "Set Up"
+* Choose "Use the global setting" and click "Create project"
 * Select ["Locally"](http://localhost:9000/dashboard?id=epfl-sonar-workshop&selectedTutorial=local),
-* On the "Provide a token" step, create the 30-days token and __make a copy of it__.
-* On the "Run analysis on your project" step, select Maven and __make a copy of the command suggested by SonarQube__
+* On the "Provide a token" step, create the 30-days token. Click "Continue"
+* On the "Run analysis on your project" step, select __Maven__ and __make a copy of the command suggested by SonarQube__
 * __Before running the command, modify the command__:
   * replace `mvn` with `./mvnw` on Linux/Mac
   * add `-DskipTests=true` to the command (the tests of project are flaky)
@@ -375,7 +374,7 @@ java.lang.AssertionError: Unexpected at [5, 7, 11]
 Of course, our test failed again...
 The `CheckVerifier` reported that lines 5, 7, and 11 are raising unexpected issues, as visible in the stack trace above.
 By looking back at our test file, it's easy to figure out that raising an issue in line 5 is wrong because the return type of the method is `void`, line 7 is wrong because `Object` is not the same as `int`, and line 11 is also wrong because of the variable *arity* of the method.
-Raising these issues is however correct accordingly to our implementation, as we didn't check for the types of the parameter and return type.
+Raising these issues is however correct according to our implementation, as we didn't check for the types of the parameter and return type.
 To handle type, however, we will need to rely on more than what we can achieve using only knowledge of the syntax tree.
 This time, we will need to use the semantic API!
 
@@ -385,7 +384,7 @@ This time, we will need to use the semantic API!
 > For the implementation of this rule, we chose to use an `IssuableSubscriptionVisitor` as the implementation basis of our rule.
 > This visitor offers an easy approach to writing quick and simple rules because it allows us to narrow the focus of our rule to a given set of Kinds to visit by subscribing to them.
 > However, this approach is not always the most optimal one.
-> In such a situation, it could be useful to take a look at another visitor provided with the API: `org.sonar.plugins.java.api.tree.BaseTreeVisitor`.
+> It could be useful to take a look at another visitor provided with the API: `org.sonar.plugins.java.api.tree.BaseTreeVisitor`.
 > The `BaseTreeVisitor` contains a `visit()` method dedicated to each and every kind of syntax tree, and is particularly useful when the visit of a file has to be fine-tuned.
 >
 > In [rules already implemented in the Java Plugin](https://github.com/SonarSource/sonar-java/tree/7.16.0.30901/java-checks/src/main/java/org/sonar/java/checks), you will be able to find multiple rules using both approaches: An `IssuableSubscriptionVisitor` as an entry point, helped by simple `BaseTreeVisitor`(s) to identify the pattern in other parts of code.
@@ -464,7 +463,7 @@ If it passed...
 When writing custom Java rules, you can only use classes from package [org.sonar.plugins.java.api](https://github.com/SonarSource/sonar-java/tree/7.16.0.30901/java-frontend/src/main/java/org/sonar/plugins/java/api).
 
 When browsing the existing 600+ rules from the SonarSource Analyzer for Java, you will sometime notice the use of some other utility classes, is not part of the API.
-While these classes could be sometime extremely useful in your context, __these classes are not available at runtime__ for custom rule plugins.
+While these classes could be sometimes extremely useful in your context, __these classes are not available at runtime__ for custom rule plugins.
 It means that, while your unit tests are still going to pass when building your plugin, your rules will most likely make analysis __crash at analysis time__.
 
 ### Registering the rule in the custom plugin
@@ -501,6 +500,7 @@ In the case of `ReturnTypeDifferentFromSingleParameter`, you will head to the `s
 
 We first need to populate the HTML file with some information that will help developers fix the issue.
 
+TODO: needs updating to follow the RSPEC format?
 ```html
 <p>For a method having a single parameter, the types of its return value and its parameter should never be the same.</p>
 
@@ -619,7 +619,7 @@ class MyJavaFileCheckRegistrarTest {
     registrar.register(context);
 
     assertThat(context.checkClasses()).hasSize(8); // change it to 9, we added a new one!
-    assertThat(context.testCheckClasses()).isEmpty();
+    assertThat(context.testCheckClasses()).hasSize(1);
   }
 }
 ```
@@ -661,11 +661,11 @@ Your rule should now be visible (with all the other sample rules).
 ![Selected rules](resources/rules_selected.png)
 
 Enable the rule by going back to [quality profiles](http://localhost:9000/profiles) and extending the Java "Sonar way" profile (name with something you will recognize).
-Set the new quality profile as default by clicking on the Gear icon at the top right and then clicking "Set as default".
-Select the "Activate More" option and find your rule using the search bar.
+Set the new quality profile as default by clicking on the tri-dots icon at the top right and then clicking "Set as default".
+Select the "Activate More Rules" option and find your rule using the search bar.
 Select your rule and click "Activate".
 
-Once activated (not sure how? see [quality-profiles](https://docs.sonarsource.com/sonarqube/9.9/instance-administration/quality-profiles/)), the only step remaining is to analyze one of your projects!
+Once activated (not sure how? see [quality-profiles](https://docs.sonarsource.com/sonarqube-server/quality-standards-administration/managing-quality-profiles)), the only step remaining is to analyze one of your projects!
 
 When encountering a method returning the same type as its parameter, the custom rule will now raise an issue, as visible in the following picture:
 
@@ -768,7 +768,7 @@ public interface JavaFileScannerContext {
 
 ### References
 
-* [SonarQube 9.9 Official documentation](https://docs.sonarsource.com/sonarqube/9.9)
+* [SonarQube Server Official documentation](https://docs.sonarsource.com/sonarqube-server)
 * [Sonar-java](https://github.com/SonarSource/sonar-java)
 * [Writing Custom Java Rules 101](https://github.com/SonarSource/sonar-java/blob/1947bdb5bec965afcee43087febf32245cb06253/docs/CUSTOM_RULES_101.md)
 
