@@ -742,10 +742,12 @@ This can be achieved using the special keywords `sc` (start-column) and `ec` (en
 In the following example, we are expecting to have the issue being raised between the columns 27 and 32 (i.e. exactly on the "Order" variable type):
 
 ```java
-public String updateOrder(Order order){ // Noncompliant [[sc=27;ec=32]] {{Don't use Order here because it's an @Entity}}
-  // ...
+public String updateOrder(Order order){ // Noncompliant {{Don't use Order here because it's an @Entity}}
+  //                      ^^^^^
 }
 ```
+
+We mark the precise location using the caret `^` characters.
 
 #### How to test the Source Version in a rule
 
