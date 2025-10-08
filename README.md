@@ -303,7 +303,7 @@ Prior to running any rule, the SonarQube Java Analyzer parses a given Java code 
 Each construction of the Java language can be represented with a specific kind of Syntax Tree, detailing each of its particularities.
 Each of these constructions is associated with a specific `Kind` as well as an interface explicitly describing all its particularities.
 For instance, the kind associated with the declaration of a method will be `org.sonar.plugins.java.api.tree.Tree.Kind.METHOD`, and its interface defined by  `org.sonar.plugins.java.api.tree.MethodTree`.
-All kinds are listed in the [`Kind` enum of the Java Analyzer API](https://github.com/SonarSource/sonar-java/blob/7.16.0.30901/java-frontend/src/main/java/org/sonar/plugins/java/api/tree/Tree.java#L47).
+All kinds are listed in the [`Kind` enum of the Java Analyzer API](https://github.com/SonarSource/sonar-java/blob/8.18.0.40025/java-frontend/src/main/java/org/sonar/plugins/java/api/tree/Tree.java#L44).
 
 When creating the rule class, we chose to implement the `IssuableSubscriptionVisitor` class from the API.
 This class, on top of providing a bunch of useful methods to raise issues, also __defines the strategy which will be used when analyzing a file__.
@@ -387,7 +387,7 @@ This time, we will need to use the semantic API!
 > It could be useful to take a look at another visitor provided with the API: `org.sonar.plugins.java.api.tree.BaseTreeVisitor`.
 > The `BaseTreeVisitor` contains a `visit()` method dedicated to each and every kind of syntax tree, and is particularly useful when the visit of a file has to be fine-tuned.
 >
-> In [rules already implemented in the Java Plugin](https://github.com/SonarSource/sonar-java/tree/7.16.0.30901/java-checks/src/main/java/org/sonar/java/checks), you will be able to find multiple rules using both approaches: An `IssuableSubscriptionVisitor` as an entry point, helped by simple `BaseTreeVisitor`(s) to identify the pattern in other parts of code.
+> In [rules already implemented in the Java Plugin](https://github.com/SonarSource/sonar-java/tree/8.18.0.40025/java-checks/src/main/java/org/sonar/java/checks), you will be able to find multiple rules using both approaches: An `IssuableSubscriptionVisitor` as an entry point, helped by simple `BaseTreeVisitor`(s) to identify the pattern in other parts of code.
 >
 
 ### Second version: Using semantic API
@@ -396,7 +396,7 @@ Up to now, our rule implementation only relied on the data provided directly by 
 However, the SonarAnalyzer for Java provides a lot more regarding the code being analyzed, because it also constructs a __semantic model__ of the code.
 This semantic model provides information related to each __symbol__ being manipulated.
 For a method, for instance, the semantic API will provide useful data such as a method's owner, its usages, the types of its parameters and its return type, the exception it may throw, etc.
-Don't hesitate to explore the [semantic package of the API](https://github.com/SonarSource/sonar-java/tree/7.16.0.30901/java-frontend/src/main/java/org/sonar/plugins/java/api/semantic) in order to have an idea of what kind of information you will have access to during analysis!
+Don't hesitate to explore the [semantic package of the API](https://github.com/SonarSource/sonar-java/tree/8.18.0.40025/java-frontend/src/main/java/org/sonar/plugins/java/api/semantic) in order to have an idea of what kind of information you will have access to during analysis!
 
 But now, let's go back to our implementation and take advantage of the semantics.
 
@@ -460,7 +460,7 @@ If it passed...
 
 ### What you can use, and what you can't
 
-When writing custom Java rules, you can only use classes from package [org.sonar.plugins.java.api](https://github.com/SonarSource/sonar-java/tree/7.16.0.30901/java-frontend/src/main/java/org/sonar/plugins/java/api).
+When writing custom Java rules, you can only use classes from package [org.sonar.plugins.java.api](https://github.com/SonarSource/sonar-java/tree/8.18.0.40025/java-frontend/src/main/java/org/sonar/plugins/java/api).
 
 When browsing the existing 600+ rules from the SonarSource Analyzer for Java, you will sometime notice the use of some other utility classes, is not part of the API.
 While these classes could be sometimes extremely useful in your context, __these classes are not available at runtime__ for custom rule plugins.
@@ -636,7 +636,7 @@ $ ./mvnw clean verify
 [INFO] Scanning for projects...
 [INFO]                                                                        
 [INFO] -------------< org.sonar.samples.java:epfl-sonar-workshop >-------------
-[INFO] Building EPFL Sonar Workshop 7.16.0.30901
+[INFO] Building EPFL Sonar Workshop 8.18.0.40025
 [INFO]   from pom.xml
 [INFO] ----------------------------[ sonar-plugin ]----------------------------
 
@@ -646,12 +646,12 @@ $ ./mvnw clean verify
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 8.762 s
-[INFO] Finished at: 2021-03-02T12:17:28+01:00
+[INFO] Total time:  4.818 s
+[INFO] Finished at: 2025-10-08T16:12:51+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
-Then, grab the jar file [epfl-sonar-workshop-7.16.0.30901.jar](target/epfl-sonar-workshop-7.16.0.30901.jar) from the `target` folder of the project, and move it to the extensions folder of your SonarQube instance, which will be located at `$SONAR_HOME/extensions/plugins`.
+Then, grab the jar file [epfl-sonar-workshop-8.18.0.40025.jar](target/epfl-sonar-workshop-8.18.0.40025.jar) from the `target` folder of the project, and move it to the extensions folder of your SonarQube instance, which will be located at `$SONAR_HOME/extensions/plugins`.
 
 Now, (re-)start your SonarQube instance, log in as admin, and navigate to the __Rules__ tab.
 
@@ -724,7 +724,7 @@ Write a rule based on the following description.
 
 You have to add a `@RuleProperty` to your Rule.
 
-Check this example: [SecurityAnnotationMandatoryRule.java](https://github.com/SonarSource/sonar-java/blob/7.16.0.30901/docs/java-custom-rules-example/src/main/java/org/sonar/samples/java/checks/SecurityAnnotationMandatoryRule.java)
+Check this example: [SecurityAnnotationMandatoryRule.java](https://github.com/SonarSource/sonar-java/blob/8.18.0.40025/docs/java-custom-rules-example/src/main/java/org/sonar/samples/java/checks/SecurityAnnotationMandatoryRule.java)
 
 #### How to test sources requiring external binaries
 
